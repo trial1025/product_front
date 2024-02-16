@@ -95,6 +95,7 @@ const checkout = async () => {
   try {
     await apiAuth.post('/orders')
     user.cart = 0
+    router.push('/orders')
     createSnackbar({
       text: '結帳成功',
       showCloseButton: false,
@@ -104,7 +105,6 @@ const checkout = async () => {
         location: 'bottom'
       }
     })
-    router.push('/orders')
   } catch (error) {
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({
