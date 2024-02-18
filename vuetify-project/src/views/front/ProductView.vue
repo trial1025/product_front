@@ -11,7 +11,6 @@ VContainer
       VForm(:disabled="isSubmitting" @submit.prevent="submit")
         VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value")
         VBtn(type="submit" prepend-icon="mdi-cart" :loading="isSubmitting") 加入購物車
-//- 已下架
 VOverlay.align-center.justify-center.text-center(:model-value="!product.sell" persistent)
   h1.text-red.text-h1 已下架
   VBtn(to="/" color="green") 回首頁
@@ -42,20 +41,17 @@ const product = ref({
   category: ''
 })
 
-// 驗證規則
 const schema = yup.object({
   quantity: yup.number().typeError('缺少數量').required('缺少數量').min(1, '數量最小為 1')
 })
-// 表單
 const { isSubmitting, handleSubmit } = useForm({
   validationSchema: schema,
   initialValues: {
     quantity: 1
   }
 })
-// 數量欄位
 const quantity = useField('quantity')
-// 表單送出
+
 const submit = handleSubmit(async (values) => {
   if (!user.isLogin) {
     router.push('/login')
@@ -89,7 +85,7 @@ const submit = handleSubmit(async (values) => {
     })
   }
 })
-// 取得商品資料
+
 onMounted(async () => {
   try {
     const { data } = await api.get('/products/' + route.params.id)

@@ -2,5 +2,5 @@
 VContainer
   VRow
     VCol(cols="12")
-      h1 首頁
+      h1 guide
 </template>

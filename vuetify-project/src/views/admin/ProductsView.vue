@@ -40,6 +40,11 @@ VDialog(v-model="dialog" persistent width="500px")
     VCard
       VCardTitle {{ dialogId === '' ? '新增商品' : '編輯商品' }}
       VCardText
+        //- VTextField(
+        //-   label="使用者名稱"
+        //-   v-model="username.value.value"
+        //-   :disabled="true"
+        //- )
         VTextField(
           label="名稱"
           v-model="name.value.value"
@@ -93,6 +98,7 @@ import { useSnackbar } from 'vuetify-use-dialog'
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
+const username = ref('')
 
 const fileAgent = ref(null)
 
@@ -109,6 +115,9 @@ const openDialog = (item) => {
     description.value.value = item.description
     category.value.value = item.category
     sell.value.value = item.sell
+    // 設定使用者名稱
+    const username = 'user.account'
+    username.value.value = item.account
   } else {
     dialogId.value = ''
   }
@@ -181,6 +190,9 @@ const submit = handleSubmit(async (values) => {
     if (fileRecords.value.length > 0) {
       fd.append('image', fileRecords.value[0].file)
     }
+    // 添加使用者帳號
+    const userAccount = 'admin.account'
+    fd.append('account', userAccount)
 
     if (dialogId.value === '') {
       await apiAuth.post('/products', fd)

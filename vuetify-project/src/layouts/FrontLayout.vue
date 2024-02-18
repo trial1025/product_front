@@ -14,20 +14,31 @@ VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
         VIcon(icon="mdi-logout")
       VListItemTitle 登出
 //- 導覽列
-VAppBar(color="primary")
+VAppBar(color="white" density="compact" :elevation="0" class="custom-app-bar")
   VContainer.d-flex.align-center
     VBtn(to="/" :active="false")
-      VAppBarTitle 購物網
+      //- VImg(src="@/assets/logo.jpg" max-height="40" contain)
+      VAppBarTitle NEWSHOT
     VSpacer
     //- 手機板導覽列
     template(v-if="isMobile")
       VAppBarNavIcon(@click="drawer = true")
     //- 電腦版導覽列
     template(v-else)
-      template(v-for="item in navItems" :key="item.to")
-        VBtn(:to="item.to" :prepend-icon="item.icon" v-if="item.show") {{ item.text }}
-          VBadge(color="error" :content="user.cart" v-if="item.to === '/cart'" floating)
-      VBtn(prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout") 登出
+      div(class="text-center")
+        template(v-for="item in navItems", :key="item.to")
+          v-menu(open-on-hover)
+            template(v-slot:activator="{ props }")
+              VBtn(v-bind="props", text,:key="item.to", :to="item.to")
+                v-icon(v-if="item.icon") {{ item.icon }}
+                | {{ item.text }}
+                //- VBadge(color="error" :content="user.cart" v-if="item.to === '/cart'" floating)
+            v-list(v-if="item.subItems && item.subItems.length > 0")
+              v-list-item(v-for="subItem in item.subItems", :key="subItem.to", :to="subItem.to")
+                v-list-item-title
+                  VIcon(:icon="subItem.icon" :size="16" class="mx-2")
+                  | {{ subItem.text }}
+    VBtn(prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout") 登出
 //- 頁面內容
 VMain
   RouterView(:key="$route.path")
@@ -56,10 +67,18 @@ const drawer = ref(false)
 // 導覽列項目
 const navItems = computed(() => {
   return [
-    { to: '/register', text: '註冊', icon: 'mdi-account-plus', show: !user.isLogin },
-    { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin },
-    { to: '/cart', text: '購物車', icon: 'mdi-cart', show: user.isLogin },
-    { to: '/orders', text: '訂單', icon: 'mdi-list-box', show: user.isLogin },
+    { to: '/guide', text: '新手指南', show: !user.isLogin },
+    { to: '/sell', text: '二手商店', show: !user.isLogin },
+    {
+      icon: 'mdi-cart',
+      show: !user.isLogin,
+      subItems: [
+        { to: '/cart', text: '購物車', icon: 'mdi-cart', show: !user.isLogin },
+        { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin },
+        { to: '/register', text: '註冊', icon: 'mdi-account-plus', show: !user.isLogin },
+        { to: '/orders', text: '訂單', icon: 'mdi-list-box', show: !user.isLogin }
+      ]
+    },
     { to: '/admin', text: '管理', icon: 'mdi-cog', show: user.isLogin && user.isAdmin }
   ]
 })
@@ -93,3 +112,10 @@ const logout = async () => {
 }
 
 </script>
+
+<style scoped>
+.custom-app-bar {
+  padding-left: 10%;
+  padding-right: 10%;
+}
+</style>

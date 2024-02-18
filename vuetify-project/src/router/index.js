@@ -12,7 +12,7 @@ const routes = [
         name: 'Home',
         component: () => import('@/views/front/HomeView.vue'),
         meta: {
-          title: '購物網',
+          title: 'NEWSHOT',
           login: false,
           admin: false
         }
@@ -22,7 +22,7 @@ const routes = [
         name: 'Register',
         component: () => import('@/views/front/RegisterView.vue'),
         meta: {
-          title: '購物網 | 註冊',
+          title: 'NEWSHOT | 註冊',
           login: false,
           admin: false
         }
@@ -32,7 +32,27 @@ const routes = [
         name: 'Login',
         component: () => import('@/views/front/LoginView.vue'),
         meta: {
-          title: '購物網 | 登入',
+          title: 'NEWSHOT | 登入',
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: 'sell',
+        name: 'Sell',
+        component: () => import('@/views/front/SellView.vue'),
+        meta: {
+          title: 'NEWSHOT | 二手商店',
+          login: false,
+          admin: false
+        }
+      },
+      {
+        path: 'guide',
+        name: 'Guide',
+        component: () => import('@/views/front/GuideView.vue'),
+        meta: {
+          title: 'NEWSHOT | 新手指南',
           login: false,
           admin: false
         }
@@ -42,7 +62,7 @@ const routes = [
         name: 'Product',
         component: () => import('@/views/front/ProductView.vue'),
         meta: {
-          title: '購物網 | 商品',
+          title: 'NEWSHOT | 商品',
           login: false,
           admin: false
         }
@@ -52,7 +72,7 @@ const routes = [
         name: 'Cart',
         component: () => import('@/views/front/CartView.vue'),
         meta: {
-          title: '購物網 | 購物車',
+          title: 'NEWSHOT | 購物車',
           login: true,
           admin: false
         }
@@ -62,7 +82,7 @@ const routes = [
         name: 'Orders',
         component: () => import('@/views/front/OrdersView.vue'),
         meta: {
-          title: '購物網 | 訂單',
+          title: 'NEWSHOT | 訂單',
           login: true,
           admin: false
         }
@@ -78,9 +98,9 @@ const routes = [
         name: 'AdminHome',
         component: () => import('@/views/admin/HomeView.vue'),
         meta: {
-          title: '購物網 | 管理',
+          title: 'NEWSHOT | 管理',
           login: true,
-          admin: true
+          admin: false
         }
       },
       {
@@ -88,9 +108,9 @@ const routes = [
         name: 'AdminProducts',
         component: () => import('@/views/admin/ProductsView.vue'),
         meta: {
-          title: '購物網 | 商品管理',
+          title: 'NEWSHOT | 商品管理',
           login: true,
-          admin: true
+          admin: false
         }
       },
       {
@@ -98,9 +118,9 @@ const routes = [
         name: 'AdminOrders',
         component: () => import('@/views/admin/OrdersView.vue'),
         meta: {
-          title: '購物網 | 訂單管理',
+          title: 'NEWSHOT | 訂單管理',
           login: true,
-          admin: true
+          admin: false
         }
       }
     ]
