@@ -1,12 +1,13 @@
 <template lang="pug">
-VCard.product-card
-  VImg(:src="image" cover height="200")
+VCard.product-card(rounded hover width="250px" height="450px")(style="text-align: center;")
+  VCardText {{ _id }}
+  VImg(:src="image" cover :style="{ width: '90%',height:'200px', margin: 'auto', borderRadius: '10px' }" )
   VCardTitle
-    RouterLink.text-primary.text-decoration-none(:to="'/products/' + _id") {{ name }}
-  VCardSubtitle ${{ price }}
+    RouterLink.link-style.text-decoration-none(:to="'/products/' + _id") {{ name }}
+  VCardSubtitle NT${{ price }}
   VCardText(style="white-space: pre;") {{ description }}
   VCardActions
-    VBtn(color="primary" prepend-icon="mdi-cart" @click="addCart") 加入購物車
+    VBtn(color="red" prepend-icon="mdi-cards-heart-outline" @click="addCart")
 </template>
 
 <script setup>
@@ -56,3 +57,10 @@ const addCart = async () => {
   }
 }
 </script>
+
+<style scoped>
+.link-style{
+  text-align: center;
+  color: black
+}
+</style>

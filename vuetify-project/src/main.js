@@ -18,6 +18,7 @@ import PrimeVue from 'primevue/config'
 import 'primevue/resources/themes/saga-blue/theme.css' // 主題
 import 'primevue/resources/primevue.min.css' // 核心樣式
 import 'primeicons/primeicons.css' // 圖示
+import 'primeflex/primeflex.css'
 
 const app = createApp(App)
 

@@ -40,11 +40,6 @@ VDialog(v-model="dialog" persistent width="500px")
     VCard
       VCardTitle {{ dialogId === '' ? '新增商品' : '編輯商品' }}
       VCardText
-        //- VTextField(
-        //-   label="使用者名稱"
-        //-   v-model="username.value.value"
-        //-   :disabled="true"
-        //- )
         VTextField(
           label="名稱"
           v-model="name.value.value"
@@ -95,10 +90,12 @@ import * as yup from 'yup'
 import { useForm, useField } from 'vee-validate'
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
+import { useUserStore } from '@/stores/userStore'
+
+const userStore = useUserStore()
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
-const username = ref('')
 
 const fileAgent = ref(null)
 
@@ -115,9 +112,6 @@ const openDialog = (item) => {
     description.value.value = item.description
     category.value.value = item.category
     sell.value.value = item.sell
-    // 設定使用者名稱
-    const username = 'user.account'
-    username.value.value = item.account
   } else {
     dialogId.value = ''
   }
@@ -190,9 +184,6 @@ const submit = handleSubmit(async (values) => {
     if (fileRecords.value.length > 0) {
       fd.append('image', fileRecords.value[0].file)
     }
-    // 添加使用者帳號
-    const userAccount = 'admin.account'
-    fd.append('account', userAccount)
 
     if (dialogId.value === '') {
       await apiAuth.post('/products', fd)
@@ -238,6 +229,7 @@ const tablePage = ref(1)
 const tableProducts = ref([])
 // 表格欄位設定
 const tableHeaders = [
+  { title: '帳號', align: 'center', key: 'user.account' },
   { title: '圖片', align: 'center', sortable: false, key: 'image' },
   { title: '名稱', align: 'center', sortable: true, key: 'name' },
   { title: '價格', align: 'center', sortable: true, key: 'price' },

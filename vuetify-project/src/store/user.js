@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', () => {
   const { apiAuth } = useApi()
 
   const token = ref('')
+  const _id = ref('')
   const account = ref('')
   const email = ref('')
   const cart = ref(0)
@@ -17,6 +18,7 @@ export const useUserStore = defineStore('user', () => {
     if (data.token) {
       token.value = data.token
     }
+    _id.value = data._id
     account.value = data.account
     email.value = data.email
     cart.value = data.cart
@@ -44,6 +46,7 @@ export const useUserStore = defineStore('user', () => {
 
   const logout = () => {
     token.value = ''
+    _id.value = ''
     account.value = ''
     email.value = ''
     cart.value = 0
@@ -52,6 +55,7 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     token,
+    _id,
     account,
     email,
     cart,

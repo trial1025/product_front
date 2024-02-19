@@ -4,7 +4,7 @@ VContainer
     VCol(cols="12")
       h1 商品列表
     VDivider
-    VCol(cols="12" md="6" lg="3" v-for="product in products" :key="product._id")
+    VCol(v-for="product in products" :key="product._id")
       ProductCard(v-bind="product")
 </template>
 
