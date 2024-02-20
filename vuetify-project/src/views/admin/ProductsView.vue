@@ -36,7 +36,7 @@ VContainer
         template(#[`item.edit`]="{ item }")
           VBtn(icon="mdi-pencil" variant="text" color="black" @click="openDialog(item)")
           //- fix
-          VBtn(icon="mdi-delete" variant="text" color="black" @click="deleteDialog(item)")
+          VBtn(icon="mdi-delete" variant="text" color="black" @click="deleteItem(item)")
 VDialog(v-model="dialog" persistent width="500px")
   VForm(:disabled="isSubmitting" @submit.prevent="submit")
     VCard(evevation="8" max-width="448" rounded="lg")
@@ -311,4 +311,22 @@ const tableApplySearch = () => {
   tablePage.value = 1
   tableLoadItems()
 }
+
+const deleteItem = (item) => {
+  // 確認是否要刪除
+  if (!confirm(`確定要刪除 ${item.name} 嗎？`)) {
+      return
+    }
+    // 發送 API 請求來刪除商品
+  try {
+      await api.delete(`/products/${item.id}`)
+      this.$toast.success('商品已刪除')
+  } catch (error) {
+      this.$toast.error('刪除商品失敗')
+  }
+
+  // 重新載入商品列表
+  this.loadProducts()
+}
+
 </script>
