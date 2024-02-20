@@ -19,6 +19,7 @@ import { computed } from 'vue'
 const user = useUserStore()
 
 const navItems = [
+  { to: '/admin', text: '個人資料', icon: 'mdi-account' },
   { to: '/admin/products', text: '商品管理', icon: 'mdi-shopping' },
   { to: '/admin/orders', text: '訂單管理', icon: 'mdi-list-box' },
   { to: '/', text: '回首頁', icon: 'mdi-home' }

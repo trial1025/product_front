@@ -34,38 +34,65 @@ VContainer
         template(#[`item.sell`]="{ item }")
           VIcon(icon="mdi-check" v-if="item.sell")
         template(#[`item.edit`]="{ item }")
-          VBtn(icon="mdi-pencil" variant="text" color="blue" @click="openDialog(item)")
+          VBtn(icon="mdi-pencil" variant="text" color="black" @click="openDialog(item)")
+          //- fix
+          VBtn(icon="mdi-delete" variant="text" color="black" @click="deleteDialog(item)")
 VDialog(v-model="dialog" persistent width="500px")
   VForm(:disabled="isSubmitting" @submit.prevent="submit")
-    VCard
+    VCard(evevation="8" max-width="448" rounded="lg")
       VCardTitle {{ dialogId === '' ? '新增商品' : '編輯商品' }}
       VCardText
         VTextField(
+          :value="user.account"
+          disabled
+        )
+        VSelect(
+          clearable
+          label="分類"
+          density="compact"
+          :items="categories"
+          variant="outlined"
+          v-model="category.value.value"
+          :error-messages="category.errorMessage.value"
+        )
+        VTextField(
+          clearable
           label="名稱"
+          density="compact"
+          variant="outlined"
           v-model="name.value.value"
           :error-messages="name.errorMessage.value"
         )
+        VSelect(
+          clearable
+          label="商品狀況"
+          variant="outlined"
+          density="compact"
+        )
         VTextField(
+          clearable
           label="價格"
+          variant="outlined"
+          density="compact"
+          prefix="$"
           type="number" min="0"
           v-model="price.value.value"
           :error-messages="price.errorMessage.value"
         )
-        VSelect(
-          label="分類"
-          :items="categories"
-          v-model="category.value.value"
-          :error-messages="category.errorMessage.value"
-        )
-        VCheckbox(
-          label="上架"
-          v-model="sell.value.value"
-          :error-messages="sell.errorMessage.value"
-        )
         VTextarea(
+          clearable
           label="說明"
+          variant="outlined"
+          density="compact"
+          rows="3"
           v-model="description.value.value"
           :error-messages="description.errorMessage.value"
+        )
+        VSelect(
+          clearable
+          label="品牌"
+          variant="outlined"
+          density="compact"
         )
         VueFileAgent(
           v-model="fileRecords"
@@ -78,10 +105,16 @@ VDialog(v-model="dialog" persistent width="500px")
           max-size="1MB"
           ref="fileAgent"
         )
+        VCheckbox(
+          label="上架"
+          v-model="sell.value.value"
+          :error-messages="sell.errorMessage.value"
+          density="compact"
+        )
       VCardActions
         VSpacer
         VBtn(color="red" :disabled="isSubmitting" @click="closeDialog") 取消
-        VBtn(color="green" type="submit" :loading="isSubmitting") 送出
+        VBtn(color="green" type="submit" :loading="isSubmitting") 刊登
 </template>
 
 <script setup>
@@ -90,9 +123,9 @@ import * as yup from 'yup'
 import { useForm, useField } from 'vee-validate'
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
-import { useUserStore } from '@/stores/userStore'
+import { useUserStore } from '@/store/user'
 
-const userStore = useUserStore()
+const user = useUserStore()
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
@@ -106,6 +139,7 @@ const dialogId = ref('')
 // 打開編輯對話框
 const openDialog = (item) => {
   if (item) {
+    // account.value.value = user.account
     dialogId.value = item._id
     name.value.value = item.name
     price.value.value = item.price
@@ -125,7 +159,7 @@ const closeDialog = () => {
 }
 
 // 分類
-const categories = ['衣服', '食品', '3C', '遊戲']
+const categories = ['反曲弓', '複合弓', '傳統弓', '箭', '護具', '配件', '其他']
 // 表單驗證
 const schema = yup.object({
   name: yup
@@ -164,12 +198,7 @@ const sell = useField('sell')
 
 const fileRecords = ref([])
 const rawFileRecords = ref([])
-// 送出表單
-// 這裡使用了 Vue File Agent 的 v-model，所以要注意 fileRecords.value 是一個陣列
-// 如果有錯誤的話，fileRecords.value[0].error 會是 true
-// 如果沒有錯誤的話，fileRecords.value[0].file 會是檔案物件
-// 這裡使用了 async/await，所以要用 handleSubmit 包裝一下
-// 這樣就可以在 submit 函式中使用 await 了
+
 const submit = handleSubmit(async (values) => {
   if (fileRecords.value[0]?.error) return
   if (dialogId.value === '' && fileRecords.value.length === 0) return
@@ -180,6 +209,8 @@ const submit = handleSubmit(async (values) => {
     for (const key in values) {
       fd.append(key, values[key])
     }
+    // 加入帳號資料
+    fd.append('account', user.account)
 
     if (fileRecords.value.length > 0) {
       fd.append('image', fileRecords.value[0].file)
@@ -229,7 +260,7 @@ const tablePage = ref(1)
 const tableProducts = ref([])
 // 表格欄位設定
 const tableHeaders = [
-  { title: '帳號', align: 'center', key: 'user.account' },
+  { title: '帳號', align: 'center', sortable: false, key: 'user.account' },
   { title: '圖片', align: 'center', sortable: false, key: 'image' },
   { title: '名稱', align: 'center', sortable: true, key: 'name' },
   { title: '價格', align: 'center', sortable: true, key: 'price' },

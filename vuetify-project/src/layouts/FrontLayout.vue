@@ -16,8 +16,8 @@ VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
 //- 導覽列
 VAppBar(color="white" density="compact" :elevation="0" class="custom-app-bar")
   VContainer.d-flex.align-center
+    VImg(src="@/assets/v3.png" max-height="30" max-width="30")
     VBtn(to="/" :active="false")
-      //- VImg(src="@/assets/logo.jpg" max-height="40" contain)
       VAppBarTitle NEWSHOT
     VSpacer
     //- 手機板導覽列

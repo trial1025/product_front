@@ -98,7 +98,7 @@ const routes = [
         name: 'AdminHome',
         component: () => import('@/views/admin/HomeView.vue'),
         meta: {
-          title: 'NEWSHOT | 管理',
+          title: 'NEWSHOT | 個人資料',
           login: true,
           admin: false
         }
