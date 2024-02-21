@@ -34,18 +34,19 @@ VContainer
         template(#[`item.sell`]="{ item }")
           VIcon(icon="mdi-check" v-if="item.sell")
         template(#[`item.edit`]="{ item }")
-          VBtn(icon="mdi-pencil" variant="text" color="black" @click="openDialog(item)")
+          VBtn(icon="mdi-pencil" variant="text" color="green" @click="openDialog(item)")
           //- fix
-          VBtn(icon="mdi-delete" variant="text" color="black" @click="deleteItem(item)")
+          VBtn(icon="mdi-delete" variant="text" color="red" @click="deleteItem(item._id)")
 VDialog(v-model="dialog" persistent width="500px")
+
   VForm(:disabled="isSubmitting" @submit.prevent="submit")
     VCard(evevation="8" max-width="448" rounded="lg")
       VCardTitle {{ dialogId === '' ? '新增商品' : '編輯商品' }}
       VCardText
-        VTextField(
-          :value="user.account"
-          disabled
-        )
+        //- VTextField(
+        //-   :value="user.account"
+        //-   disabled
+        //- )
         VSelect(
           clearable
           label="分類"
@@ -139,7 +140,6 @@ const dialogId = ref('')
 // 打開編輯對話框
 const openDialog = (item) => {
   if (item) {
-    // account.value.value = user.account
     dialogId.value = item._id
     name.value.value = item.name
     price.value.value = item.price
@@ -183,6 +183,7 @@ const schema = yup.object({
 const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema: schema,
   initialValues: {
+    account: user.account,
     name: '',
     price: 0,
     description: '',
@@ -209,9 +210,6 @@ const submit = handleSubmit(async (values) => {
     for (const key in values) {
       fd.append(key, values[key])
     }
-    // 加入帳號資料
-    fd.append('account', user.account)
-
     if (fileRecords.value.length > 0) {
       fd.append('image', fileRecords.value[0].file)
     }
@@ -260,7 +258,7 @@ const tablePage = ref(1)
 const tableProducts = ref([])
 // 表格欄位設定
 const tableHeaders = [
-  { title: '帳號', align: 'center', sortable: false, key: 'user.account' },
+  { title: '帳號', align: 'center', sortable: false, key: 'account' },
   { title: '圖片', align: 'center', sortable: false, key: 'image' },
   { title: '名稱', align: 'center', sortable: true, key: 'name' },
   { title: '價格', align: 'center', sortable: true, key: 'price' },
@@ -279,7 +277,7 @@ const tableSearch = ref('')
 const tableLoadItems = async () => {
   tableLoading.value = true
   try {
-    const { data } = await apiAuth.get('/products/all', {
+    const { data } = await apiAuth.get('/products/:id', {
       params: {
         page: tablePage.value,
         itemsPerPage: tableItemsPerPage.value,
@@ -312,21 +310,31 @@ const tableApplySearch = () => {
   tableLoadItems()
 }
 
-const deleteItem = (item) => {
-  // 確認是否要刪除
-  if (!confirm(`確定要刪除 ${item.name} 嗎？`)) {
-      return
-    }
-    // 發送 API 請求來刪除商品
+const deleteItem = async (id) => {
   try {
-      await api.delete(`/products/${item.id}`)
-      this.$toast.success('商品已刪除')
+    await apiAuth.delete('/products/' + id)
+    createSnackbar({
+      text: '刪除成功',
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'green',
+        location: 'bottom'
+      }
+    })
+    tableLoadItems()
   } catch (error) {
-      this.$toast.error('刪除商品失敗')
+    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
+    createSnackbar({
+      text,
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'red',
+        location: 'bottom'
+      }
+    })
   }
-
-  // 重新載入商品列表
-  this.loadProducts()
 }
 
 </script>

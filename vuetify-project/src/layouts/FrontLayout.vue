@@ -29,13 +29,13 @@ VAppBar(color="white" density="compact" :elevation="0" class="custom-app-bar")
         template(v-for="item in navItems", :key="item.to")
           v-menu(open-on-hover)
             template(v-slot:activator="{ props }")
-              VBtn(v-bind="props", text,:key="item.to", :to="item.to")
+              VBtn(v-bind="props", text,:key="item.to", :to="item.to" v-if="item.show")
                 v-icon(v-if="item.icon") {{ item.icon }}
                 | {{ item.text }}
                 //- VBadge(color="error" :content="user.cart" v-if="item.to === '/cart'" floating)
             v-list(v-if="item.subItems && item.subItems.length > 0")
-              v-list-item(v-for="subItem in item.subItems", :key="subItem.to", :to="subItem.to")
-                v-list-item-title
+              v-list-item(v-for="subItem in item.subItems",  :key="subItem.to", :to="subItem.to")
+                v-list-item-title(v-if="subItem.show")
                   VIcon(:icon="subItem.icon" :size="16" class="mx-2")
                   | {{ subItem.text }}
     VBtn(prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout") 登出
@@ -67,19 +67,34 @@ const drawer = ref(false)
 // 導覽列項目
 const navItems = computed(() => {
   return [
-    { to: '/guide', text: '新手指南', show: !user.isLogin },
-    { to: '/sell', text: '二手商店', show: !user.isLogin },
+    { to: '/guide', text: '新手指南', show: true },
+    { to: '/sell', text: '二手商店', show: true },
     {
       icon: 'mdi-cart',
-      show: !user.isLogin,
+      show: true,
       subItems: [
-        { to: '/cart', text: '購物車', icon: 'mdi-cart', show: !user.isLogin },
-        { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin },
-        { to: '/register', text: '註冊', icon: 'mdi-account-plus', show: !user.isLogin },
-        { to: '/orders', text: '訂單', icon: 'mdi-list-box', show: !user.isLogin }
+        { to: '/cart', text: '購物車', icon: 'mdi-cart', show: true },
+        { to: '/orders', text: '訂單', icon: 'mdi-list-box', show: true }
       ]
     },
-    { to: '/admin', text: '管理', icon: 'mdi-cog', show: user.isLogin && user.isAdmin }
+    {
+      icon: 'mdi-account-circle',
+      show: !user.isLogin,
+      subItems: [
+        { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin },
+        { to: '/register', text: '註冊', icon: 'mdi-account-plus', show: !user.isLogin }
+      ]
+    },
+    {
+      text: '管理',
+      icon: 'mdi-cog',
+      show: user.isLogin,
+      subItems: [
+        { to: '/admin', text: '個人資料', icon: 'mdi-account-outline', show: user.isLogin },
+        { to: '/admin/products', text: '商品管理', icon: 'mdi-shopping-outline', show: user.isLogin },
+        { to: '/admin/orders', text: '訂單管理', icon: 'mdi-clipboard-text-outline', show: user.isLogin }
+      ]
+    }
   ]
 })
 
