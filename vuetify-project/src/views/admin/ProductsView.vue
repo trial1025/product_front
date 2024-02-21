@@ -6,6 +6,9 @@ VContainer
     VDivider
     VCol(cols="12")
       VBtn(color="green" @click="openDialog()") 新增商品
+      template
+      div.card.flex.justify-content-center
+        TreeSelect(v-model="selectedValue" :options="nodes" placeholder="Select Item"  class="md:w-20rem w-full" z-index="9999"  style="z-index: 9999;")
     VCol(cols="12")
       VDataTableServer(
         v-model:items-per-page="tableItemsPerPage"
@@ -52,10 +55,10 @@ VDialog(v-model="dialog" persistent width="500px")
           label="分類"
           density="compact"
           :items="categories"
-          variant="outlined"
           v-model="category.value.value"
           :error-messages="category.errorMessage.value"
         )
+
         VTextField(
           clearable
           label="名稱"
@@ -69,6 +72,9 @@ VDialog(v-model="dialog" persistent width="500px")
           label="商品狀況"
           variant="outlined"
           density="compact"
+          :items="conditions"
+          v-model="condition.value.value"
+          :error-messages="condition.errorMessage.value"
         )
         VTextField(
           clearable
@@ -89,12 +95,12 @@ VDialog(v-model="dialog" persistent width="500px")
           v-model="description.value.value"
           :error-messages="description.errorMessage.value"
         )
-        VSelect(
-          clearable
-          label="品牌"
-          variant="outlined"
-          density="compact"
-        )
+        //- VSelect(
+        //-   clearable
+        //-   label="品牌"
+        //-   variant="outlined"
+        //-   density="compact"
+        //- )
         VueFileAgent(
           v-model="fileRecords"
           v-model:rawModelValue="rawFileRecords"
@@ -119,12 +125,18 @@ VDialog(v-model="dialog" persistent width="500px")
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import * as yup from 'yup'
 import { useForm, useField } from 'vee-validate'
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useUserStore } from '@/store/user'
+// primevue
+import TreeSelect from 'primevue/treeselect'
+import { NodeService } from '@/service/NodeService'
+
+const nodes = ref(null)
+const selectedValue = ref(null)
 
 const user = useUserStore()
 
@@ -145,6 +157,7 @@ const openDialog = (item) => {
     price.value.value = item.price
     description.value.value = item.description
     category.value.value = item.category
+    condition.value.value = item.condition
     sell.value.value = item.sell
   } else {
     dialogId.value = ''
@@ -159,7 +172,30 @@ const closeDialog = () => {
 }
 
 // 分類
-const categories = ['反曲弓', '複合弓', '傳統弓', '箭', '護具', '配件', '其他']
+const categories = [
+  {
+    name: '反曲弓',
+    subcategories: ['弓身', '弓臂', '瞄準器', '安定桿', '箭', '護具', '配件', '其他']
+  },
+  {
+    name: '複合弓',
+    subcategories: ['弓身', '弓臂', '瞄準器', '安定桿', '箭', '護具', '配件', '其他']
+  },
+  {
+    name: '傳統弓',
+    subcategories: ['弓身', '弓臂', '瞄準器', '安定桿', '箭', '護具', '配件', '其他']
+  },
+  {
+    name: '周邊商品',
+    subcategories: ['弓身', '弓臂', '瞄準器', '安定桿', '箭', '護具', '配件', '其他']
+  },
+  {
+    name: '其他',
+    subcategories: ['弓身', '弓臂', '瞄準器', '安定桿', '箭', '護具', '配件', '其他']
+  }
+]
+// 商品狀況
+const conditions = ['全新', '幾乎全新', '狀況良好', '輕度使用', '狀況尚可', '狀況差']
 // 表單驗證
 const schema = yup.object({
   name: yup
@@ -177,6 +213,10 @@ const schema = yup.object({
     .string()
     .required('缺少商品分類')
     .test('isCategory', '商品分類錯誤', value => categories.includes(value)),
+  condition: yup
+    .string()
+    .required('缺少商品狀況')
+    .test('isCondition', '商品狀況錯誤', value => conditions.includes(value)),
   sell: yup
     .boolean()
 })
@@ -188,6 +228,7 @@ const { handleSubmit, isSubmitting, resetForm } = useForm({
     price: 0,
     description: '',
     category: '',
+    condition: '',
     sell: false
   }
 })
@@ -195,6 +236,7 @@ const name = useField('name')
 const price = useField('price')
 const description = useField('description')
 const category = useField('category')
+const condition = useField('condition')
 const sell = useField('sell')
 
 const fileRecords = ref([])
@@ -264,6 +306,7 @@ const tableHeaders = [
   { title: '價格', align: 'center', sortable: true, key: 'price' },
   // { title: '說明', align: 'center', sortable: true, key: 'description' },
   { title: '分類', align: 'center', sortable: true, key: 'category' },
+  { title: '商品狀況', align: 'center', sortable: true, key: 'condition' },
   { title: '上架', align: 'center', sortable: true, key: 'sell' },
   { title: '編輯', align: 'center', sortable: false, key: 'edit' }
 ]
@@ -277,7 +320,7 @@ const tableSearch = ref('')
 const tableLoadItems = async () => {
   tableLoading.value = true
   try {
-    const { data } = await apiAuth.get('/products/:id', {
+    const { data } = await apiAuth.get('/products/me', {
       params: {
         page: tablePage.value,
         itemsPerPage: tableItemsPerPage.value,
@@ -337,4 +380,7 @@ const deleteItem = async (id) => {
   }
 }
 
+onMounted(() => {
+  NodeService.getTreeNodes().then((data) => (nodes.value = data))
+})
 </script>
