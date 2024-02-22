@@ -110,7 +110,7 @@ const routes = [
         meta: {
           title: 'NEWSHOT | 商品管理',
           login: true,
-          admin: false
+          admin: true
         }
       },
       {
@@ -119,6 +119,42 @@ const routes = [
         component: () => import('@/views/admin/OrdersView.vue'),
         meta: {
           title: 'NEWSHOT | 訂單管理',
+          login: true,
+          admin: true
+        }
+      }
+    ]
+  },
+  {
+    path: '/user',
+    component: () => import('@/layouts/UserLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: 'UserHome',
+        component: () => import('@/views/user/HomeView.vue'),
+        meta: {
+          title: 'NEWSHOT | 個人資料',
+          login: true,
+          admin: false
+        }
+      },
+      {
+        path: 'userproducts',
+        name: 'UserProducts',
+        component: () => import('@/views/user/UserProductsView.vue'),
+        meta: {
+          title: 'NEWSHOT | 我的商品',
+          login: true,
+          admin: false
+        }
+      },
+      {
+        path: 'userorders',
+        name: 'UserOrders',
+        component: () => import('@/views/user/UserOrdersView.vue'),
+        meta: {
+          title: 'NEWSHOT | 我的訂單',
           login: true,
           admin: false
         }

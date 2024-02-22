@@ -86,9 +86,17 @@ const navItems = computed(() => {
       ]
     },
     {
-      text: '管理',
-      icon: 'mdi-cog',
+      icon: 'mdi-account-circle',
       show: user.isLogin,
+      subItems: [
+        { to: '/user', text: '個人資料', icon: 'mdi-account-outline', show: user.isLogin },
+        { to: '/user/userproducts', text: '我的商品', icon: 'mdi-shopping-outline', show: user.isLogin },
+        { to: '/user/userorders', text: '我的訂單', icon: 'mdi-clipboard-text-outline', show: user.isLogin }
+      ]
+    },
+    {
+      icon: 'mdi-cog',
+      show: user.isLogin && user.isAdmin,
       subItems: [
         { to: '/admin', text: '個人資料', icon: 'mdi-account-outline', show: user.isLogin },
         { to: '/admin/products', text: '商品管理', icon: 'mdi-shopping-outline', show: user.isLogin },

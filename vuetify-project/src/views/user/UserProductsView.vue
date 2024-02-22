@@ -103,6 +103,12 @@ VDialog(v-model="dialog" persistent width="500px")
           v-model="description.value.value"
           :error-messages="description.errorMessage.value"
         )
+        //- VSelect(
+        //-   clearable
+        //-   label="品牌"
+        //-   variant="outlined"
+        //-   density="compact"
+        //- )
         VueFileAgent(
           v-model="fileRecords"
           v-model:rawModelValue="rawFileRecords"
@@ -283,7 +289,7 @@ const tablePage = ref(1)
 const tableProducts = ref([])
 // 表格欄位設定
 const tableHeaders = [
-  { title: '帳號', align: 'center', sortable: false, key: 'account' },
+  // { title: '帳號', align: 'center', sortable: false, key: 'account' },
   { title: '名稱', align: 'center', sortable: true, key: 'name' },
   { title: '圖片', align: 'center', sortable: false, key: 'image' },
   { title: '價格', align: 'center', sortable: true, key: 'price' },
@@ -304,7 +310,7 @@ const tableSearch = ref('')
 const tableLoadItems = async () => {
   tableLoading.value = true
   try {
-    const { data } = await apiAuth.get('/products', {
+    const { data } = await apiAuth.get('/products/me', {
       params: {
         page: tablePage.value,
         itemsPerPage: tableItemsPerPage.value,

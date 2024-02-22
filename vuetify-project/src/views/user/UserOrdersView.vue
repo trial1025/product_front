@@ -2,8 +2,7 @@
 VContainer
   VRow
     VCol(cols="12")
-      VIcon(color="yellow" style="margin-right: 10px;") mdi-crown
-      |  訂單管理
+      h1 訂單管理
     VCol(cols="12")
       VDataTable(:items="orders" :headers="headers")
         template(#[`item.createdAt`]="{ item }")

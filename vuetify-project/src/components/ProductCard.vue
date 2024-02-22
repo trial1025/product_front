@@ -1,12 +1,12 @@
 <template lang="pug">
-VCard.product-card(rounded hover width="250px" height="450px")(style="text-align: center;")
-  VCardText {{ _id }}
+VCard.product-card(rounded hover height="350px")(style="text-align: left;")
+  VCardText(style="padding-top: 4px;padding-bottom: 4px;") {{ account }}
   VImg(:src="image" cover :style="{ width: '90%',height:'200px', margin: 'auto', borderRadius: '10px' }" )
-  VCardTitle
-    RouterLink.link-style.text-decoration-none(:to="'/products/' + _id") {{ name }}
-  VCardSubtitle NT${{ price }}
-  VCardText(style="white-space: pre;") {{ description }}
-  VCardActions
+  VCardText(class="p4")
+    RouterLink.text-decoration-none(:to="'/products/' + _id" style="padding-top: 2px;padding-bottom: 2px;color: black;") {{ name }}
+  VCardText(class="p4" style="font-size: large;font-weight: bolder;") NT${{ price }}
+  VCardText(class="p4") {{ condition }}
+  VCardActions(class="p4")
     VBtn(color="red" prepend-icon="mdi-cards-heart-outline" @click="addCart")
 </template>
 
@@ -21,7 +21,7 @@ const user = useUserStore()
 const createSnackbar = useSnackbar()
 const router = useRouter()
 
-const props = defineProps(['_id', 'category', 'description', 'image', 'name', 'price', 'sell'])
+const props = defineProps(['_id', 'category', 'subs', 'condition', 'description', 'image', 'name', 'price', 'sell', 'account'])
 
 const addCart = async () => {
   if (!user.isLogin) {
@@ -59,8 +59,8 @@ const addCart = async () => {
 </script>
 
 <style scoped>
-.link-style{
-  text-align: center;
-  color: black
+.p4{
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 </style>

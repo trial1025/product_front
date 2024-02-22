@@ -34,6 +34,7 @@ const router = useRouter()
 const cart = ref([])
 const headers = [
   { title: '商品名稱', key: 'product.name' },
+  { title: '賣家', key: 'product.account' },
   { title: '單價', key: 'product.price' },
   { title: '數量', key: 'quantity' },
   { title: '總價', key: 'total', value: item => item.product.price * item.quantity },
@@ -76,6 +77,7 @@ const addCart = async (product, quantity) => {
       cart.value.splice(idx, 1)
     }
   } catch (error) {
+    console.log(error)
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({
       text,
@@ -106,6 +108,7 @@ const checkout = async () => {
       }
     })
   } catch (error) {
+    console.log(error)
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({
       text,
@@ -125,6 +128,7 @@ onMounted(async () => {
     const { data } = await apiAuth.get('/users/cart')
     cart.value.push(...data.result)
   } catch (error) {
+    console.log(error)
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({
       text,
