@@ -1,4 +1,4 @@
-<!-- <template lang="pug">VDivider
+<template lang="pug">
 VContainer
   VCol(cols="12")
     h1 購物車
@@ -17,92 +17,29 @@ VContainer
   VCol.text-center(cols="12")
     p 總金額: {{ total }}
     VBtn(color="green" :disabled="!canCheckout" :loading="isSubmitting" @click="checkout") 結帳
-</template> -->
-<template>
-  <div class="p-grid">
-    <div class="p-col-12">
-      <h1>購物車</h1>
-    </div>
-    <div class="p-col-12">
-      <DataTable :value="cart" dataKey="id" tableStyle="min-width: 50rem">
-        <Column field="product.name" header="商品名稱" :body="productNameTemplate"></Column>
-        <Column field="product.account" header="賣家"></Column>
-        <Column field="product.price" header="單價"></Column>
-        <Column field="quantity" header="數量" :body="quantityTemplate"></Column>
-        <Column field="total" header="總價" :body="totalPriceTemplate"></Column>
-        <Column header="操作" :body="actionTemplate"></Column>
-      </DataTable>
-    </div>
-    <div class="p-col-12 text-center">
-      <p>總金額: {{ total }}</p>
-      <Button label="結帳" :disabled="!canCheckout" :loading="isSubmitting" @click="checkout" class="p-button-success"></Button>
-    </div>
-  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useApi } from '@/composables/axios'
-// import { useSnackbar } from 'vuetify-use-dialog'
+import { useSnackbar } from 'vuetify-use-dialog'
 import { useUserStore } from '@/store/user'
 import { useRouter } from 'vue-router'
-import Button from 'primevue/button'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 
 const { apiAuth } = useApi()
-// const createSnackbar = useSnackbar()
+const createSnackbar = useSnackbar()
 const user = useUserStore()
 const router = useRouter()
 
 const cart = ref([])
-// const headers = [
-//   { title: '商品名稱', key: 'product.name' },
-//   { title: '賣家', key: 'product.account' },
-//   { title: '單價', key: 'product.price' },
-//   { title: '數量', key: 'quantity' },
-//   { title: '總價', key: 'total', value: item => item.product.price * item.quantity },
-//   { title: '操作', key: 'action' }
-// ]
-
-// 加載購物車
-onMounted(async () => {
-  try {
-    const { data } = await apiAuth.get('/users/cart')
-    cart.value.push(...data.result)
-  } catch (error) {
-    console.log(error)
-    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
-    createSnackbar({
-      text,
-      showCloseButton: false,
-      snackbarProps: {
-        timeout: 2000,
-        color: 'red',
-        location: 'bottom'
-      }
-    })
-  }
-})
-
-// 商品名稱模板
-const productNameTemplate = (item) => {
-  return item.product.sell ? item.product.name : `<span class="text-decoration-line-through">${item.product.name} (已下架)</span>`
-}
-
-// 數量調整模板
-const quantityTemplate = (item) => {
-  return `
-    <Button icon="pi pi-minus" class="p-button-text p-button-danger" @click="addCart(item.product._id, -1)" />
-    ${item.quantity}
-    <Button icon="pi pi-plus" class="p-button-text p-button-success" @click="addCart(item.product._id, 1)" />
-  `
-}
-
-// 總價模板
-const totalPriceTemplate = (item) => {
-  return `${item.quantity * item.product.price}`
-}
+const headers = [
+  { title: '商品名稱', key: 'product.name' },
+  { title: '賣家', key: 'product.account' },
+  { title: '單價', key: 'product.price' },
+  { title: '數量', key: 'quantity' },
+  { title: '總價', key: 'total', value: item => item.product.price * item.quantity },
+  { title: '操作', key: 'action' }
+]
 
 const total = computed(() => {
   return cart.value.reduce((total, current) => {
@@ -186,10 +123,22 @@ const checkout = async () => {
   isSubmitting.value = false
 }
 
+onMounted(async () => {
+  try {
+    const { data } = await apiAuth.get('/users/cart')
+    cart.value.push(...data.result)
+  } catch (error) {
+    console.log(error)
+    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
+    createSnackbar({
+      text,
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'red',
+        location: 'bottom'
+      }
+    })
+  }
+})
 </script>
-
-<style>
-.text-decoration-line-through {
-  text-decoration: line-through;
-}
-</style>
