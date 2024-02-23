@@ -13,24 +13,26 @@ import { ref, onMounted, nextTick } from 'vue'
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
 import ProductCard from '@/components/ProductCard.vue'
-// import gsap from 'gsap'
+import { useUserStore } from '@/store/user'
 
-const { api } = useApi()
+const user = useUserStore()
+const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
 
 const products = ref([])
+const currentUser = ref({ account: user.account })
 
 onMounted(async () => {
   try {
-    const { data } = await api.get('/products', {
+    const { data } = await apiAuth.get('/products', {
       params: {
         itemsPerPage: -1
       }
     })
-    products.value.push(...data.result.data)
+    const filteredProducts = data.result.data.filter(product => product.account !== currentUser.value.account)
+    products.value.push(...filteredProducts)
+    // products.value.push(...data.result.data)
     await nextTick()
-    // gsap
-    //   .to('.product-card', { opacity: 1, duration: 0.5 })
   } catch (error) {
     console.log(error)
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'

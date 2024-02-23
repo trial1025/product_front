@@ -2,8 +2,7 @@
 VContainer
   VRow
     VCol(cols="12")
-      VIcon(color="yellow" style="margin-right: 10px;") mdi-crown
-      |  訂單管理
+      h1 訂單
     VCol(cols="12")
       VDataTable(:items="orders" :headers="headers")
         template(#[`item.createdAt`]="{ item }")
@@ -25,7 +24,6 @@ const createSnackbar = useSnackbar()
 const orders = ref([])
 const headers = [
   { title: '訂單編號', key: '_id' },
-  { title: '帳號', key: 'user.account' },
   { title: '日期', key: 'createdAt' },
   { title: '商品', key: 'cart', sortable: false },
   {
@@ -41,7 +39,7 @@ const headers = [
 
 onMounted(async () => {
   try {
-    const { data } = await apiAuth.get('/orders/all')
+    const { data } = await apiAuth.get('/orders')
     orders.value.push(...data.result)
   } catch (error) {
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
