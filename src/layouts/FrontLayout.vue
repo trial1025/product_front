@@ -143,6 +143,7 @@ const logout = async () => {
 }
 
 .bg {
-  background-color: #c0f1ff;
+  background-color: #000000;
+  color: aliceblue;
 }
 </style>

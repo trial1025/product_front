@@ -1,5 +1,5 @@
 <template lang="pug">
-VContainer(cols="8" style="background-color: lightcoral;")
+VContainer(cols="8")
   VRow(justify="center" align-item-center)
     VCol(cols="10")
       h1 商品列表
