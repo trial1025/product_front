@@ -14,7 +14,7 @@ VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
         VIcon(icon="mdi-logout")
       VListItemTitle 登出
 //- 導覽列
-VAppBar(color="white" density="compact" :elevation="0" class="custom-app-bar")
+VAppBar(density="compact" :elevation="0" class="custom-app-bar bg")
   VContainer.d-flex.align-center
     VImg(src="@/assets/v3.png" max-height="30" max-width="30")
     VBtn(to="/" :active="false")
@@ -140,5 +140,9 @@ const logout = async () => {
 .custom-app-bar {
   padding-left: 10%;
   padding-right: 10%;
+}
+
+.bg {
+  background-color: #c0f1ff;
 }
 </style>

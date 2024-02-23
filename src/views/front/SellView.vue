@@ -1,7 +1,7 @@
 <template lang="pug">
-VContainer
+VContainer(cols="8" style="background-color: lightcoral;")
   VRow(justify="center" align-item-center)
-    VCol(cols="12")
+    VCol(cols="10")
       h1 商品列表
     VDivider
     VCol(v-for="product in products" :key="product._id" cols="12" sm="6" md="4" lg="3" xl="2")
@@ -49,7 +49,8 @@ onMounted(async () => {
 })
 </script>
 
-<!-- <style scoped lang="sass">
-.product-card
-  opacity: 0
+<!-- <style scoped>
+.bg {
+  background-color: #ebf8ff;
+}
 </style> -->
