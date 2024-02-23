@@ -24,17 +24,17 @@ const createSnackbar = useSnackbar()
 const orders = ref([])
 const headers = [
   { title: '訂單編號', key: '_id' },
-  { title: '日期', key: 'createdAt' },
-  { title: '商品', key: 'cart', sortable: false },
-  {
-    title: '金額',
-    key: 'price',
-    value: (item) => {
-      return item.cart.reduce((total, current) => {
-        return total + current.quantity * current.product.price
-      }, 0)
-    }
-  }
+  { title: '日期', key: 'createdAt' }
+  // { title: '商品', key: 'cart', sortable: false },
+  // {
+  //   title: '金額',
+  //   key: 'price',
+  //   value: (item) => {
+  //     return item.cart.reduce((total, current) => {
+  //       return total + current.quantity * current.product.price
+  //     }, 0)
+  //   }
+  // }
 ]
 
 onMounted(async () => {
