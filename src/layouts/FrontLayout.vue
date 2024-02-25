@@ -1,14 +1,17 @@
 <template lang="pug">
-//- 手機版側欄
 VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
-  VList(nav)
-    template(v-for="item in navItems" :key="item.to")
-      VListItem(:to="item.to" v-if="item.show")
-        template(#prepend)
-          VIcon(:icon="item.icon")
-        template(#append)
-          VBadge(color="error" :content="user.cart" v-if="item.to === '/cart'" inline)
-        VListItemTitle {{ item.text }}
+  VList(nav density="compact")
+    template(v-for="item in navItems" :key="item")
+      VListGroup(v-model="item.active" :prepend-icon="item.icon" v-if="item.subItems && item.subItems.length > 0")
+        template(v-slot:activator="{ props }" v-if="item.show")
+          VListItem(v-bind="props" rounded="xl")
+            VListItemTitle {{ item.text }}
+        VListItem(v-for="subItem in item.subItems" :key="subItem.to" :to="subItem.to")
+          VIcon(:icon="subItem.icon" :size="18" class="mx-2")
+          | {{ subItem.text }}
+      VListItem(:to="item.to" v-else)
+        VIcon(:icon="item.icon" v-if="item.icon")
+        VListItemTitle(style="text-align: center;") {{ item.text }}
     VListItem(v-if="user.isLogin" @click="logout")
       template(#prepend)
         VIcon(icon="mdi-logout")
@@ -86,7 +89,7 @@ const navItems = computed(() => {
       ]
     },
     {
-      icon: 'mdi-account-circle',
+      icon: 'mdi-account',
       show: user.isLogin,
       subItems: [
         { to: '/user', text: '個人資料', icon: 'mdi-account-outline', show: user.isLogin },
@@ -98,7 +101,7 @@ const navItems = computed(() => {
       icon: 'mdi-cog',
       show: user.isLogin && user.isAdmin,
       subItems: [
-        { to: '/admin', text: '個人資料', icon: 'mdi-account-outline', show: user.isLogin },
+        { to: '/admin', text: '管理員資料', icon: 'mdi-account-outline', show: user.isLogin },
         { to: '/admin/products', text: '商品管理', icon: 'mdi-shopping-outline', show: user.isLogin },
         { to: '/admin/orders', text: '訂單管理', icon: 'mdi-clipboard-text-outline', show: user.isLogin }
       ]

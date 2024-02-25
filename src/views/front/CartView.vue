@@ -1,39 +1,24 @@
-<template>
-  <div class="grid">
-    <div class="col-10 mt-4">
-      <DataTable :value="cart" dataKey="id"  tableStyle="min-height: 15rem">
-        <template #header>
-                <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                    <span class="text-xl text-900 font-bold">購物車</span>
-                </div>
-            </template>
-        <Column field="product.name" header="商品名稱" :body="productNameTemplate"></Column>
-        <Column header="圖片">
-          <template #body="slotProps">
-            <img :src="slotProps.data.product.image" :alt="slotProps.data.image" class="w-6rem border-round" />
-          </template>
-        </Column>
-        <Column field="product.account" header="賣家"></Column>
-        <Column field="product.price" header="單價"></Column>
-        <Column field="quantity" header="數量" :body="quantityTemplate">
-          <template #body="slotProps">
-            <Button icon="pi pi-minus" class="p-button-text p-button-danger" @click="addCart(slotProps.data.product._id, -1)" />
-            {{ slotProps.data.quantity }}
-            <Button icon="pi pi-plus" class="p-button-text p-button-success" @click="addCart(slotProps.data.product._id, 1)" />
-          </template>
-        </Column>
-        <Column header="操作" :body="actionTemplate">
-          <template #body="slotProps">
-            <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="addCart(slotProps.data.product._id, slotProps.data.quantity * -1)" />
-          </template>
-        </Column>
-      </DataTable>
-      <div class="col-12 text-center">
-        <p>總金額: {{ total }}</p>
-        <Button label="結帳" :disabled="!canCheckout"  :loading="isSubmitting" @click="checkout" class="bg-green-500 border-round text-white" style="width: 50px;"/>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+VContainer
+  VCol(cols="12")
+    h1 購物車
+  VDivider
+  VCol(cols="12")
+    VDataTable(:items="cart" :headers="headers")
+      template(#[`item.product.name`]="{ item }")
+        span(v-if="item.product.sell") {{ item.product.name }}
+        span.text-red.text-decoration-line-through(v-else) {{ item.product.name }} (已下架)
+      template(#[`item.product.image`]="{ item }")
+        VImg(:src="item.product.image" height="50px")
+      template(#[`item.quantity`]="{ item }")
+        VBtn(variant="text" icon="mdi-minus" color="red" @click="addCart(item.product._id, -1)")
+        | {{ item.quantity }}
+        VBtn(variant="text" icon="mdi-plus" color="green" @click="addCart(item.product._id, 1)")
+      template(#[`item.action`]="{ item }")
+        VBtn(variant="text" icon="mdi-delete" color="red" @click="addCart(item.product._id, item.quantity * -1)")
+  VCol.text-center(cols="12")
+    p 總金額: {{ total }}
+    VBtn(color="green" :disabled="!canCheckout" :loading="isSubmitting" @click="checkout") 結帳
 </template>
 
 <script setup>
@@ -42,9 +27,6 @@ import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useUserStore } from '@/store/user'
 import { useRouter } from 'vue-router'
-import Button from 'primevue/button'
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
@@ -52,31 +34,15 @@ const user = useUserStore()
 const router = useRouter()
 
 const cart = ref([])
-
-// 加載購物車
-onMounted(async () => {
-  try {
-    const { data } = await apiAuth.get('/users/cart')
-    cart.value.push(...data.result)
-  } catch (error) {
-    console.log(error)
-    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
-    createSnackbar({
-      text,
-      showCloseButton: false,
-      snackbarProps: {
-        timeout: 2000,
-        color: 'red',
-        location: 'bottom'
-      }
-    })
-  }
-})
-
-// 商品名稱模板
-const productNameTemplate = (item) => {
-  return item.product.sell ? item.product.name : `<span class="text-decoration-line-through">${item.product.name} (已下架)</span>`
-}
+const headers = [
+  { title: '商品名稱', key: 'product.name' },
+  { title: '圖片', key: 'product.image' },
+  { title: '賣家', key: 'product.account' },
+  { title: '單價', key: 'product.price' },
+  { title: '數量', key: 'quantity' },
+  { title: '總價', key: 'total', value: item => item.product.price * item.quantity },
+  { title: '操作', key: 'action' }
+]
 
 const total = computed(() => {
   return cart.value.reduce((total, current) => {
@@ -160,15 +126,22 @@ const checkout = async () => {
   isSubmitting.value = false
 }
 
+onMounted(async () => {
+  try {
+    const { data } = await apiAuth.get('/users/cart')
+    cart.value.push(...data.result)
+  } catch (error) {
+    console.log(error)
+    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
+    createSnackbar({
+      text,
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'red',
+        location: 'bottom'
+      }
+    })
+  }
+})
 </script>
-
-<style>
-.text-decoration-line-through {
-  text-decoration: line-through;
-}
-
-.grid {
-  display: flex;
-  justify-content: center;
-}
-</style>
