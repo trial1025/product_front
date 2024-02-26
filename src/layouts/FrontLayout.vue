@@ -19,7 +19,7 @@ VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
 //- 導覽列
 VAppBar(density="compact" :elevation="0" class="custom-app-bar bg")
   VContainer.d-flex.align-center
-    VImg(src="@/assets/v3.png" max-height="30" max-width="30")
+    VImg(src="@/assets/v4.png" max-height="30" max-width="30")
     VBtn(to="/" :active="false")
       VAppBarTitle NEWSHOT
     VSpacer
@@ -72,14 +72,7 @@ const navItems = computed(() => {
   return [
     { to: '/guide', text: '新手指南', show: true },
     { to: '/sell', text: '二手商店', show: true },
-    {
-      icon: 'mdi-cart',
-      show: true,
-      subItems: [
-        { to: '/cart', text: '購物車', icon: 'mdi-cart', show: true },
-        { to: '/orders', text: '訂單', icon: 'mdi-list-box', show: true }
-      ]
-    },
+    { to: '/cart', icon: 'mdi-heart-outline', show: true },
     {
       icon: 'mdi-account-circle',
       show: !user.isLogin,
@@ -92,6 +85,7 @@ const navItems = computed(() => {
       icon: 'mdi-account',
       show: user.isLogin,
       subItems: [
+        { to: '/orders', text: '訂單', icon: 'mdi-list-box', show: true },
         { to: '/user', text: '個人資料', icon: 'mdi-account-outline', show: user.isLogin },
         { to: '/user/userproducts', text: '我的商品', icon: 'mdi-shopping-outline', show: user.isLogin },
         { to: '/user/userorders', text: '我的訂單', icon: 'mdi-clipboard-text-outline', show: user.isLogin }

@@ -78,6 +78,16 @@ const routes = [
         }
       },
       {
+        path: 'orderreq',
+        name: 'OrdeReq',
+        component: () => import('@/views/front/OrderReq.vue'),
+        meta: {
+          title: 'NEWSHOT | 訂單請求',
+          login: true,
+          admin: false
+        }
+      },
+      {
         path: 'orders',
         name: 'Orders',
         component: () => import('@/views/front/OrdersView.vue'),

@@ -1,16 +1,29 @@
 <template lang="pug">
-VContainer
-  VRow
-    VCol(cols="12")
-      h1 {{ product.name }}
-    VCol(cols="12" md="6")
+VContainer(d-flex)
+  VRow(justify="center")
+    VCol(md="4")
       VImg(:src="product.image")
-    VCol(cols="12" md="6")
-      p ${{ product.price }}
+    VCol(md="4")
+      p(style="font-size:larger;") {{ product.name }}
+      h2 NT${{ product.price }}
+      VDivider(class="my-3")
+      h3 商品狀況
+      p {{ product.condition }}
+      h3 商品描述
       p(style="white-space: pre;") {{ product.description }}
+      h4 商品類別
+      p {{ product.category }}
       VForm(:disabled="isSubmitting" @submit.prevent="submit")
-        VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value")
-        VBtn(type="submit" prepend-icon="mdi-cart" :loading="isSubmitting") 加入購物車
+        VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value" variant="outlined" label="數量" required density="compact" class="my-3")
+        button(type="submit" :loading="isSubmitting" @click="getOrder" class="btn-red") 購買
+      VCard(class="mt-8")
+        VCardText 賣家資訊
+        VRow
+          VCol(cols="2")
+            VAvatar(size="30" class="mb-2 ml-3")
+              VImg(src="@/assets/user.jpg")
+          VCol(cols="10")
+            VCardText(class="py-1 m-0") @{{ product.account }}
 VOverlay.align-center.justify-center.text-center(:model-value="!product.sell" persistent)
   h1.text-red.text-h1 已下架
   VBtn(to="/" color="green") 回首頁
@@ -33,13 +46,19 @@ const user = useUserStore()
 
 const product = ref({
   _id: '',
+  account: '',
   name: '',
   price: 0,
   description: '',
+  condition: '',
   image: '',
   sell: true,
   category: ''
 })
+
+const getOrder = () => {
+  router.push('/orderreq')
+}
 
 const schema = yup.object({
   quantity: yup.number().typeError('缺少數量').required('缺少數量').min(1, '數量最小為 1')
@@ -90,9 +109,11 @@ onMounted(async () => {
   try {
     const { data } = await api.get('/products/' + route.params.id)
     product.value._id = data.result._id
+    product.value.account = data.result.account
     product.value.name = data.result.name
     product.value.price = data.result.price
     product.value.description = data.result.description
+    product.value.condition = data.result.condition
     product.value.image = data.result.image
     product.value.sell = data.result.sell
     product.value.category = data.result.category
@@ -113,3 +134,11 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style scoped>
+.btn-red{
+  width: 100px;
+  background-color: #E53935;
+  color: aliceblue;
+}
+</style>

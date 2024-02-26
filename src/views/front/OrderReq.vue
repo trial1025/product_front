@@ -1,25 +1,24 @@
 <template lang="pug">
-VContainer(d-flex)
-  VRow(justify="center" align="center")
-    VCol(cols="8")
-      h1 追蹤清單
-    VDivider
-    VCol(cols="8")
-      VDataTable(:items="cart" :headers="headers")
-        template(#[`item.product.name`]="{ item }")
-          span(v-if="item.product.sell") {{ item.product.name }}
-          span.text-red.text-decoration-line-through(v-else) {{ item.product.name }} (已下架)
-        template(#[`item.product.image`]="{ item }")
-          VImg(:src="item.product.image" height="100px")
-        //- template(#[`item.quantity`]="{ item }")
-        //-   VBtn(variant="text" icon="mdi-minus" color="red" @click="addCart(item.product._id, -1)")
-        //-   | {{ item.quantity }}
-        //-   VBtn(variant="text" icon="mdi-plus" color="green" @click="addCart(item.product._id, 1)")
-        template(#[`item.action`]="{ item }")
-          VBtn(variant="text" icon="mdi-heart" color="primary" @click="addCart(item.product._id, item.quantity * -1)")
-    //- VCol.text-center(cols="12")
-    //-   p 總金額: {{ total }}
-    //-   VBtn(color="green" :disabled="!canCheckout" :loading="isSubmitting" @click="checkout") 結帳
+VContainer
+  VCol(cols="12")
+    h1 訂單請求
+  VDivider
+  VCol(cols="12")
+    VDataTable(:items="cart" :headers="headers")
+      template(#[`item.product.name`]="{ item }")
+        span(v-if="item.product.sell") {{ item.product.name }}
+        span.text-red.text-decoration-line-through(v-else) {{ item.product.name }} (已下架)
+      template(#[`item.product.image`]="{ item }")
+        VImg(:src="item.product.image" height="50px")
+      template(#[`item.quantity`]="{ item }")
+        VBtn(variant="text" icon="mdi-minus" color="red" @click="addCart(item.product._id, -1)")
+        | {{ item.quantity }}
+        VBtn(variant="text" icon="mdi-plus" color="green" @click="addCart(item.product._id, 1)")
+      template(#[`item.action`]="{ item }")
+        VBtn(variant="text" icon="mdi-delete" color="red" @click="addCart(item.product._id, item.quantity * -1)")
+  VCol.text-center(cols="12")
+    p 總金額: {{ total }}
+    VBtn(color="green" :disabled="!canCheckout" :loading="isSubmitting" @click="checkout") 結帳
 </template>
 
 <script setup>
@@ -36,24 +35,24 @@ const router = useRouter()
 
 const cart = ref([])
 const headers = [
-  { title: '圖片', key: 'product.image' },
   { title: '商品名稱', key: 'product.name' },
+  { title: '圖片', key: 'product.image' },
   { title: '賣家', key: 'product.account' },
   { title: '單價', key: 'product.price' },
-  // { title: '數量', key: 'quantity' },
-  // { title: '總價', key: 'total', value: item => item.product.price * item.quantity },
-  { title: '追蹤', key: 'action' }
+  { title: '數量', key: 'quantity' },
+  { title: '總價', key: 'total', value: item => item.product.price * item.quantity },
+  { title: '操作', key: 'action' }
 ]
 
-// const total = computed(() => {
-//   return cart.value.reduce((total, current) => {
-//     return total + current.quantity * current.product.price
-//   }, 0)
-// })
+const total = computed(() => {
+  return cart.value.reduce((total, current) => {
+    return total + current.quantity * current.product.price
+  }, 0)
+})
 
-// const canCheckout = computed(() => {
-//   return cart.value.length > 0 && !cart.value.some(item => !item.product.sell)
-// })
+const canCheckout = computed(() => {
+  return cart.value.length > 0 && !cart.value.some(item => !item.product.sell)
+})
 
 const addCart = async (product, quantity) => {
   if (!user.isLogin) {

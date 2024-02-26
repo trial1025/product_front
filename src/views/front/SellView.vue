@@ -1,11 +1,13 @@
 <template lang="pug">
-VContainer(cols="8")
+VContainer
   VRow(justify="center" align-item-center)
-    VCol(cols="10")
-      h1 商品列表
+    VCol(cols="8")
+      h2 商品列表
     VDivider
-    VCol(v-for="product in products" :key="product._id" cols="12" sm="6" md="4" lg="3" xl="2")
-      ProductCard(v-bind="product")
+    VCol(cols="8")
+      VRow
+        VCol(v-for="product in products" :key="product._id" cols="12" md="4" lg="4" xl="3" class="mb-4")
+          ProductCard(v-bind="product")
 </template>
 
 <script setup>
@@ -48,9 +50,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<!-- <style scoped>
-.bg {
-  background-color: #ebf8ff;
-}
-</style> -->
