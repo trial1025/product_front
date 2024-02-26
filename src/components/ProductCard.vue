@@ -16,7 +16,7 @@ VCard.product-card(rounded hover height="350px" d-flex justify-center)(style="te
       VCardText(class="p4") {{ condition }}
     VCol(cols="4" class="ml-2 py-0")
       VCardActions(class="p4")
-        VBtn(color="red" prepend-icon="mdi-cards-heart-outline")
+        VBtn(color="red" prepend-icon="mdi-cards-heart-outline" @click="addCart")
 </template>
 
 <script setup>
