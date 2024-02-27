@@ -40,7 +40,6 @@ const addFavorite = async () => {
   try {
     const { data } = await apiAuth.post('/users/favorite', {
       product: props._id
-      quantity: 1
     })
     user.favorite = data.result
     createSnackbar({
@@ -65,6 +64,7 @@ const addFavorite = async () => {
     })
   }
 }
+
 </script>
 
 <style scoped>
