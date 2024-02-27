@@ -16,7 +16,7 @@ VCard.product-card(rounded hover height="350px" d-flex justify-center)(style="te
       VCardText(class="p4") {{ condition }}
     VCol(cols="4" class="ml-2 py-0")
       VCardActions(class="p4")
-        VBtn(color="red" prepend-icon="mdi-cards-heart-outline" @click="addCart")
+        VBtn(color="red" prepend-icon="mdi-cards-heart-outline" @click="addFavorite")
 </template>
 
 <script setup>
@@ -32,19 +32,19 @@ const router = useRouter()
 
 const props = defineProps(['_id', 'category', 'subs', 'condition', 'description', 'image', 'name', 'price', 'sell', 'account'])
 
-const addCart = async () => {
+const addFavorite = async () => {
   if (!user.isLogin) {
     router.push('/login')
     return
   }
   try {
-    const { data } = await apiAuth.patch('/users/cart', {
-      product: props._id,
+    const { data } = await apiAuth.post('/users/favorite', {
+      product: props._id
       quantity: 1
     })
-    user.cart = data.result
+    user.favorite = data.result
     createSnackbar({
-      text: '新增成功',
+      text: '加入最愛成功',
       showCloseButton: false,
       snackbarProps: {
         timeout: 2000,
