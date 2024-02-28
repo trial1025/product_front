@@ -19,7 +19,7 @@ VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
 //- 導覽列
 VAppBar(density="compact" :elevation="0" class="custom-app-bar bg")
   VContainer.d-flex.align-center
-    VImg(src="@/assets/v4.png" max-height="30" max-width="30")
+    VImg(src="@/assets/v3rb.png" max-height="30" max-width="30")
     VBtn(to="/" :active="false")
       VAppBarTitle NEWSHOT
     VSpacer
@@ -43,7 +43,7 @@ VAppBar(density="compact" :elevation="0" class="custom-app-bar bg")
                   | {{ subItem.text }}
     VBtn(prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout") 登出
 //- 頁面內容
-VMain
+VMain(style="background-color: #E1E8EE;")
   RouterView(:key="$route.path")
 </template>
 
@@ -70,7 +70,7 @@ const drawer = ref(false)
 // 導覽列項目
 const navItems = computed(() => {
   return [
-    { to: '/guide', text: '新手指南', show: true },
+    // { to: '/guide', text: '新手指南', show: true },
     { to: '/sell', text: '二手商店', show: true },
     { to: '/cart', icon: 'mdi-heart-outline', show: true },
     {
@@ -140,7 +140,7 @@ const logout = async () => {
 }
 
 .bg {
-  background-color: #000000;
-  color: aliceblue;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
 }
 </style>

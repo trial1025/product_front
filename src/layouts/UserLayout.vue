@@ -1,14 +1,14 @@
 <template lang="pug">
-VNavigationDrawer(permanent color="blue-grey darken-4" app)
+VNavigationDrawer(floating app)
   VList
     VListItem(:prepend-avatar :title="user.account")
   VDivider
   VList
     VListItem(
       v-for="item in navItems" :key="item.to"
-      :to="item.to" :title="item.text" :prepend-icon="item.icon" active-class="white"
+      :to="item.to" :title="item.text" :prepend-icon="item.icon" active-class="white" class="rounded-s-xl"
     )
-VMain
+VMain(style="background-color: #E1E8EE;")
   RouterView
 </template>
 
@@ -32,7 +32,6 @@ const prependAvatar = computed(() => {
 
 <style scoped>
 .white {
-  background-color: rgb(255, 255, 255) !important;
-  color: black;
+  background-color: #E1E8EE;
 }
 </style>

@@ -1,20 +1,14 @@
-<template>
-  <!-- The video -->
-  <video autoplay muted loop id="myVideo">
-    <source src="@/assets/v1.mp4" type="video/mp4">
-  </video>
+<template lang="pug">
+video(autoplay muted loop id="myVideo")
+  source(src="@/assets/v1.mp4" type="video/mp4")
 
-  <!-- Optional: some overlay text to describe the video -->
-  <div class="content">
-    <h1>Heading</h1>
-    <p>Lorem ipsum...</p>
-    <!-- Use a button to pause/play the video with JavaScript -->
-    <button id="myBtn" onclick="myFunction()">Pause</button>
-  </div>
+div.content
+  h1(style="text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8) ;") We are preparing for the next race
+  VBtn(rounded="xl" class="btn-shop")
+    Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
 </template>
 
 <style scoped>
-/* Style the video: 100% width and height to cover the entire window */
 body {
   overflow: hidden;
 }
@@ -24,32 +18,23 @@ body {
   bottom: 0;
   min-width: 100%;
   min-height: 100%;
-  object-fit: cover; /* 新增這一行 */
+  object-fit: cover;
 }
-
-/* Add some content at the bottom of the video/page */
 .content {
   position: fixed;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  bottom: 40%;
+  left: 30%;
   color: #f1f1f1;
   width: 100%;
   padding: 20px;
 }
 
-/* Style the button used to pause/play the video */
-#myBtn {
-  width: 200px;
-  font-size: 18px;
-  padding: 10px;
-  border: none;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-}
-
-#myBtn:hover {
-  background: #ddd;
-  color: black;
+.btn-shop {
+  position: fixed;
+  bottom: 35%;
+  left: 45%;
+  width: 15%;
+  font-size: larger;
+  background-color:#E53935;
 }
 </style>

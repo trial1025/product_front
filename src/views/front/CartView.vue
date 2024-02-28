@@ -1,53 +1,48 @@
 <template lang="pug">
-VContainer(d-flex)
+VContainer(d-flex style="background-color:;")
   VRow(justify="center" align="center")
-    VCol(cols="8")
-      h1 追蹤清單
+    VCol(cols="10")
+      h2 追蹤清單
     VDivider
-    VCol(cols="8")
-      VDataTable(:items="favorite" :headers="headers")
-        template(#[`item.product.name`]="{ item }")
-          span(v-if="item.product.sell") {{ item.product.name }}
-          span.text-red.text-decoration-line-through(v-else) {{ item.product.name }} (已下架)
-        template(#[`item.product.image`]="{ item }")
-          VImg(:src="item.product.image" height="100px")
-        template(#[`item.action`]="{ item }")
-          VBtn(variant="text" icon="mdi-heart" color="primary" @click="addFavorite(item.product._id, item.quantity * -1)")
+    VCol(cols="10")
+      VRow
+        VCol(v-for="item in favorite" :key="item._id" cols="3")
+          VCard(height="360px" elevation)
+            RouterLink.text-decoration-none(:to="'/products/' + item.product._id" style="color:black")
+              VRow
+                VCol(cols="2")
+                  VAvatar(size="30" class="my-2" style="margin-left: 10px;")
+                    VImg(src="@/assets/user.jpg")
+                VCol
+                  VCardText.py-2 @{{ item.product.account }}
+              VImg(:src="item.product.image" cover  :style="{ width: '90%',height:'200px', margin: 'auto', borderRadius: '10px' }")
+              VCardText.py-0 {{ item.product.name }}
+              VCardText.py-0(style="font-weight: bold;") NT${{ item.product.price }}
+            VCardActions.py-0
+              VBtn(color="red" icon @click="deleteItem(item._id)")
+                VIcon mdi-heart
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useApi } from '@/composables/axios'
 import { useSnackbar } from 'vuetify-use-dialog'
 import { useUserStore } from '@/store/user'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { ro } from 'vuetify/lib/locale/index.mjs'
 
 const { apiAuth } = useApi()
 const createSnackbar = useSnackbar()
 const user = useUserStore()
+// const route = useRoute()
 const router = useRouter()
-
 const favorite = ref([])
-const headers = [
-  { title: '圖片', key: 'product.image' },
-  { title: '商品名稱', key: 'product.name' },
-  { title: '賣家', key: 'product.account' },
-  { title: '單價', key: 'product.price' },
-  { title: '追蹤', key: 'action' }
-]
 
-const addFavorite = async (product, quantity) => {
-  if (!user.isLogin) {
-    router.push('/login')
-    return
-  }
+const deleteItem = async (id) => {
   try {
-    const { data } = await apiAuth.patch('/users/favorite', {
-      product
-    })
-    user.favorite = data.result
+    await apiAuth.delete('/favorite/products/' + id)
     createSnackbar({
-      text: '修改成功',
+      text: '刪除成功',
       showCloseButton: false,
       snackbarProps: {
         timeout: 2000,
@@ -55,13 +50,8 @@ const addFavorite = async (product, quantity) => {
         location: 'bottom'
       }
     })
-    const idx = favorite.value.findIndex(item => item.product._id === product)
-    favorite.value[idx].quantity += quantity
-    if (favorite.value[idx].quantity <= 0) {
-      favorite.value.splice(idx, 1)
-    }
+    favorite.value = favorite.value.filter(item => item._id !== id)
   } catch (error) {
-    console.log(error)
     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
     createSnackbar({
       text,
@@ -74,38 +64,6 @@ const addFavorite = async (product, quantity) => {
     })
   }
 }
-
-// const isSubmitting = ref(false)
-// const checkout = async () => {
-//   isSubmitting.value = true
-//   try {
-//     await apiAuth.post('/orders')
-//     user.favorite = 0
-//     router.push('/orders')
-//     createSnackbar({
-//       text: '結帳成功',
-//       showCloseButton: false,
-//       snackbarProps: {
-//         timeout: 2000,
-//         color: 'green',
-//         location: 'bottom'
-//       }
-//     })
-//   } catch (error) {
-//     console.log(error)
-//     const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
-//     createSnackbar({
-//       text,
-//       showCloseButton: false,
-//       snackbarProps: {
-//         timeout: 2000,
-//         color: 'red',
-//         location: 'bottom'
-//       }
-//     })
-//   }
-//   isSubmitting.value = false
-// }
 
 onMounted(async () => {
   try {

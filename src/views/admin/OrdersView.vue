@@ -2,7 +2,8 @@
 VContainer
   VRow
     VCol(cols="12")
-      h1 訂單
+      h1.text-center 訂單
+    VDivider
     VCol(cols="12")
       VDataTable(:items="orders" :headers="headers")
         template(#[`item.createdAt`]="{ item }")

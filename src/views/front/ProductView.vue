@@ -1,22 +1,25 @@
 <template lang="pug">
-VContainer(d-flex)
+VContainer.mt-6(d-flex)
   VRow(justify="center")
+    VCol(md="6")
+      VCard
+        VImg(:src="product.image" cover :style="{width:'95%',margin:'auto',borderRadius: '10px' }")
     VCol(md="4")
-      VImg(:src="product.image")
-    VCol(md="4")
-      p(style="font-size:larger;") {{ product.name }}
-      h2 NT${{ product.price }}
-      VDivider(class="my-3")
-      h3 商品狀況
-      p {{ product.condition }}
-      h3 商品描述
-      p(style="white-space: pre;") {{ product.description }}
-      h4 商品類別
-      p {{ product.category }}
-      VForm(:disabled="isSubmitting" @submit.prevent="submit")
-        VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value" variant="outlined" label="數量" required density="compact" class="my-3")
-        button(type="submit" :loading="isSubmitting" @click="getOrder" class="btn-red") 購買
-      VCard(class="mt-8")
+      VCard
+        VCardTitle(style="font-size: x-large;") {{ product.name }}
+        VCardText(style="color: #E53935;font-size:x-large;font-weight: bolder;") NT${{ product.price }}
+        VDivider(class="mt-1")
+        VCardText
+          h3 商品狀況
+          p {{ product.condition }}
+          h3 商品描述
+          p(style="white-space: pre;") {{ product.description }}
+          h4 商品類別
+          p {{ product.category }}
+          VForm(:disabled="isSubmitting" @submit.prevent="submit")
+            VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value" variant="outlined" label="數量" required density="compact" class="my-3")
+            button(type="submit" :loading="isSubmitting" @click="getOrder" class="btn-red") 購買
+      VCard(class="mt-2")
         VCardText 賣家資訊
         VRow
           VCol(cols="2")
@@ -24,6 +27,7 @@ VContainer(d-flex)
               VImg(src="@/assets/user.jpg")
           VCol(cols="10")
             VCardText(class="py-1 m-0") @{{ product.account }}
+        VCardText 上架時間: {{ product.createdAt }}
 VOverlay.align-center.justify-center.text-center(:model-value="!product.sell" persistent)
   h1.text-red.text-h1 已下架
   VBtn(to="/" color="green") 回首頁
@@ -53,7 +57,8 @@ const product = ref({
   condition: '',
   image: '',
   sell: true,
-  category: ''
+  category: '',
+  createdAt: ''
 })
 
 const getOrder = () => {
@@ -117,6 +122,7 @@ onMounted(async () => {
     product.value.image = data.result.image
     product.value.sell = data.result.sell
     product.value.category = data.result.category
+    product.value.createdAt = new Date(data.result.createdAt).toLocaleString()
 
     document.title = `購物網 | ${product.value.name}`
   } catch (error) {
@@ -137,7 +143,8 @@ onMounted(async () => {
 
 <style scoped>
 .btn-red{
-  width: 100px;
+  width: 100%;
+  height: 35px;
   background-color: #E53935;
   color: aliceblue;
 }

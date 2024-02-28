@@ -1,24 +1,37 @@
 <template lang="pug">
-VContainer
-  VRow
-    VCol(cols="12")
-      h1 登入
-    VDivider
-    VCol(cols="12")
-      VForm(:disabled="isSubmitting" @submit.prevent="submit")
-        VTextField(
-          label="帳號"
-          minlength="4" maxlength="20" counter
-          v-model="account.value.value"
-          :error-messages="account.errorMessage.value"
-        )
-        VTextField(
-          label="密碼" type="password"
-          minlength="4" maxlength="20" counter
-          v-model="password.value.value"
-          :error-messages="password.errorMessage.value"
-        )
-        VBtn(type="submit" color="green") 登入
+VContainer.d-flex
+  VRow(justify="center" align="center" style="height: 80vh;")
+    VCol(cols="4")
+      VCard(elevation="10" class="pa-5" style="height: 80vh" rounded="xl"
+      image="@/assets/login3.webp" theme="dark")
+        h1.text-center.mt-6 sign in
+        VCol(cols="12")
+          VForm.my-6(:disabled="isSubmitting" @submit.prevent="submit")
+            VTextField(
+              variant="outlined"
+              hide-details="auto"
+              label="帳號"
+              color="#2A5264"
+              density="compact"
+              minlength="4" maxlength="20" counter
+              v-model="account.value.value"
+              :error-messages="account.errorMessage.value"
+              bg-color="white"
+            )
+            VTextField(
+              variant="outlined"
+              hide-details="auto"
+              color="#2A5264"
+              density="compact"
+              label="密碼" type="password"
+              minlength="4" maxlength="20" counter
+              v-model="password.value.value"
+              :error-messages="password.errorMessage.value"
+              bg-color="white"
+            )
+            VRow.justify-center.my-2
+              VCol(cols="auto")
+                VBtn(type="submit" elevation="1" color="red-darken-1") login
 </template>
 
 <script setup>
@@ -89,3 +102,15 @@ const submit = handleSubmit(async (values) => {
   }
 })
 </script>
+
+<style scoped>
+body {
+  background-color: #E1E8EE;
+}
+
+.btn-red{
+  width: 100px;
+  background-color: #E53935;
+  color: aliceblue;
+}
+</style>

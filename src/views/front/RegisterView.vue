@@ -1,35 +1,54 @@
 <template lang="pug">
-VContainer
-  VRow
-    VCol(cols="12")
-      h1 註冊
-    VDivider
-    VCol(cols="12")
-      VForm(:disabled="isSubmitting" @submit.prevent="submit")
-        VTextField(
-          label="帳號"
-          minlength="4" maxlength="20" counter
-          v-model="account.value.value"
-          :error-messages="account.errorMessage.value"
-        )
-        VTextField(
-          label="信箱" type="email"
-          v-model="email.value.value"
-          :error-messages="email.errorMessage.value"
-        )
-        VTextField(
-          label="密碼" type="password"
-          minlength="4" maxlength="20" counter
-          v-model="password.value.value"
-          :error-messages="password.errorMessage.value"
-        )
-        VTextField(
-          label="確認密碼" type="password"
-          minlength="4" maxlength="20" counter
-          v-model="passwordConfirm.value.value"
-          :error-messages="passwordConfirm.errorMessage.value"
-        )
-        VBtn(type="submit" color="green") 註冊
+VContainer.d-flex
+  VRow(justify="center" align="center" style="height: 90vh;")
+    VCol(cols="4")
+      VCard(elevation="10" class="pa-5" style="height: 80vh" rounded="xl"
+      image="@/assets/login3.webp" theme="dark")
+        h1.text-center.my-2 sign up
+        VCol(cols="12")
+          VForm(:disabled="isSubmitting" @submit.prevent="submit")
+            VTextField(
+              label="帳號"
+              color="#2A5264"
+              bg-color="white"
+              variant="outlined"
+              density="compact"
+              minlength="4" maxlength="20" counter
+              v-model="account.value.value"
+              :error-messages="account.errorMessage.value"
+            )
+            VTextField(
+              variant="outlined"
+              color="#2A5264"
+              bg-color="white"
+              density="compact"
+              label="信箱" type="email"
+              v-model="email.value.value"
+              :error-messages="email.errorMessage.value"
+            )
+            VTextField(
+              variant="outlined"
+              color="#2A5264"
+              bg-color="white"
+              density="compact"
+              label="密碼" type="password"
+              minlength="4" maxlength="20" counter
+              v-model="password.value.value"
+              :error-messages="password.errorMessage.value"
+            )
+            VTextField(
+              variant="outlined"
+              color="#2A5264"
+              bg-color="white"
+              density="compact"
+              label="確認密碼" type="password"
+              minlength="4" maxlength="20" counter
+              v-model="passwordConfirm.value.value"
+              :error-messages="passwordConfirm.errorMessage.value"
+            )
+            VRow.justify-center.my-2
+              VCol(cols="auto")
+                VBtn(type="submit" elevation="1" color="red-darken-1") 註冊
 </template>
 
 <script setup>

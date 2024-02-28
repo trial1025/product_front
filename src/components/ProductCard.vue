@@ -1,5 +1,5 @@
 <template lang="pug">
-VCard.product-card(rounded hover height="350px" d-flex justify-center)(style="text-align: left")
+VCard.product-card(rounded hover height="350px" d-flex justify-center style="text-align: left")
   VCol
     VRow
       VCol(cols="2")
@@ -38,9 +38,8 @@ const addFavorite = async () => {
     return
   }
   try {
-    const { data } = await apiAuth.post('/users/favorite', {
-      product: props._id,
-      quantity: 0
+    const { data } = await apiAuth.patch('/users/favorite', {
+      product: props._id
     })
     user.favorite = data.result
     createSnackbar({
