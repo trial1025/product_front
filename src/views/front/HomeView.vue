@@ -3,7 +3,7 @@ video(autoplay muted loop id="myVideo")
   source(src="@/assets/v1.mp4" type="video/mp4")
 
 div.content
-  h1(style="text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.8) ;") We are preparing for the next race
+  h1(style="text-shadow: 10px 10px 10px rgb(0, 0, 0) ;") We are preparing for the next race
   VBtn(rounded="xl" class="btn-shop")
     Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
 </template>
@@ -22,19 +22,23 @@ body {
 }
 .content {
   position: fixed;
-  bottom: 40%;
-  left: 30%;
   color: #f1f1f1;
   width: 100%;
+  height: 100%;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-shop {
   position: fixed;
-  bottom: 35%;
-  left: 45%;
   width: 15%;
+  margin-top: 8%;
   font-size: larger;
   background-color:#E53935;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
