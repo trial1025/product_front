@@ -2,10 +2,12 @@
 video(autoplay muted loop id="myVideo")
   source(src="@/assets/v1.mp4" type="video/mp4")
 
-div.content
-  h1(style="text-shadow: 10px 10px 10px rgb(0, 0, 0) ;") We are preparing for the next race
-  VBtn(rounded="xl" class="btn-shop")
-    Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
+VContainer
+  VRow
+    VCol(xs="12" sm="8" md="6" lg="4").content
+        h1(style="text-shadow: 10px 10px 10px rgb(0, 0, 0) ;") We are preparing for the next race
+        VBtn(rounded="xl" class="btn-shop custom-margin")
+          Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
 </template>
 
 <style scoped>
@@ -33,7 +35,6 @@ body {
 
 .btn-shop {
   position: fixed;
-  width: 15%;
   margin-top: 8%;
   font-size: larger;
   background-color:#E53935;
@@ -41,4 +42,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+@media (max-width: 599px) {
+  .custom-margin {
+    margin-top: 35%;
+  }
+}
+
 </style>

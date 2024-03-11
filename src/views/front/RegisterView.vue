@@ -1,7 +1,7 @@
 <template lang="pug">
 VContainer.d-flex
   VRow(justify="center" align="center" style="height: 90vh;")
-    VCol(cols="4")
+    VCol(lg="4" md="6" sm="8" xs="12")
       VCard(elevation="10" class="pa-5" style="height: 80vh" rounded="xl"
       image="@/assets/login3.webp" theme="dark")
         h1.text-center.my-2 sign up
