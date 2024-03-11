@@ -1,10 +1,9 @@
 <template lang="pug">
 video(autoplay muted loop id="myVideo")
   source(src="@/assets/v1.mp4" type="video/mp4")
-
 VContainer
   VRow
-    VCol(xs="12" sm="8" md="6" lg="4").content
+    VCol(xs="12" sm="12" md="12" lg="12").content
         h1(style="text-shadow: 10px 10px 10px rgb(0, 0, 0) ;") We are preparing for the next race
         VBtn(rounded="xl" class="btn-shop custom-margin")
           Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
@@ -35,7 +34,7 @@ body {
 
 .btn-shop {
   position: fixed;
-  margin-top: 8%;
+  margin-top: 12%;
   font-size: larger;
   background-color:#E53935;
   display: flex;
