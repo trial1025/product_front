@@ -4,15 +4,14 @@ video(autoplay muted loop id="myVideo")
 VContainer
   VRow
     VCol(xs="12" sm="12" md="12" lg="12").content
-        h1(style="text-shadow: 10px 10px 10px rgb(0, 0, 0) ;") We are preparing for the next race
-        VBtn(rounded="xl" class="btn-shop custom-margin")
-          Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
+      VBtn(rounded="xl" class="btn-shop custom-margin")
+        Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
 </template>
 
 <style scoped>
-body {
+/* body {
   overflow: hidden;
-}
+} */
 #myVideo {
   position: fixed;
   right: 0;
@@ -34,7 +33,6 @@ body {
 
 .btn-shop {
   position: fixed;
-  margin-top: 12%;
   font-size: larger;
   background-color:#E53935;
   display: flex;
@@ -46,6 +44,15 @@ body {
   .custom-margin {
     margin-top: 35%;
   }
+}
+
+html {
+    overflow: -moz-hidden-unscrollable;
+    height: 100%;
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 </style>

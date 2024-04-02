@@ -16,7 +16,6 @@
     "pinia-plugin-persistedstate": "^3.2.1",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
-    "primevue": "^3.48.1",
     "roboto-fontface": "*",
     "validator": "^13.11.0",
     "vee-validate": "^4.12.4",
