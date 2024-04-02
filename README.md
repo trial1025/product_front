@@ -1,53 +1,11 @@
-# default
+# NEWSHOT射箭二手器材交一平台
 
-## Project setup
-
-```
-# yarn
-yarn
-
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# bun
-bun install
-```
-
-### Compiles and hot-reloads for development
+## 功能
 
 ```
-# yarn
-yarn dev
+- 註冊、登入
+- 商品下單、上傳、修改、刪除
+- 收藏商品
+- 器材基礎知識部落格(待開發
 
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# bun
-bun run dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# bun
-bun run build
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
+[網站連結](<https://trial1025.github.io/product_front/#/>)
