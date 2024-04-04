@@ -45,14 +45,4 @@ VContainer
     margin-top: 35%;
   }
 }
-
-html {
-    overflow: -moz-hidden-unscrollable;
-    height: 100%;
-}
-
-body::-webkit-scrollbar {
-    display: none;
-}
-
 </style>
