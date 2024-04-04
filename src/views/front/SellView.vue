@@ -4,9 +4,9 @@ VContainer
     VCol(cols="10")
       h2 商品列表
     VDivider
-    VCol(cols="10")
+    VCol(cols="12" lg="10" xl="10")
       VRow
-        VCol(v-for="product in products" :key="product._id" cols="12" md="4" lg="3" xl="3" class="mb-4")
+        VCol(v-for="product in products" :key="product._id" class="mb-4" cols="12" sm="6" md="4" lg="3" xl="2")
           ProductCard(v-bind="product")
 </template>
 
