@@ -17,11 +17,11 @@ VNavigationDrawer(v-model="drawer" temporary location="left" v-if="isMobile")
         VIcon(icon="mdi-logout")
       VListItemTitle 登出
 //- 導覽列
-VAppBar(density="compact" :elevation="0" class="custom-app-bar bg")
+VAppBar(density="compact" :elevation="1" class="custom-app-bar bg")
   VContainer.d-flex.align-center
-    VImg(src="@/assets/v3rb.png" max-height="30" max-width="30")
+    VImg(to="/" src="@/assets/v3rb.png" max-height="30" max-width="30")
     VBtn(to="/" :active="false")
-      VAppBarTitle NEWSHOT
+      VAppBarTitle(class="hidden-sm-and-down") NEWSHOT 射箭器材交易
     VSpacer
     //- 手機板導覽列
     template(v-if="isMobile")
@@ -43,7 +43,7 @@ VAppBar(density="compact" :elevation="0" class="custom-app-bar bg")
                   | {{ subItem.text }}
     VBtn(prepend-icon="mdi-logout" v-if="user.isLogin" @click="logout") 登出
 //- 頁面內容
-VMain(style="background-color: #E1E8EE;")
+VMain(style="background-color: #fff;")
   RouterView(:key="$route.path")
 </template>
 
@@ -72,7 +72,7 @@ const navItems = computed(() => {
   return [
     // { to: '/guide', text: '新手指南', show: true },
     { to: '/sell', text: '二手商店', show: true },
-    { to: '/cart', icon: 'mdi-heart-outline', show: true },
+    { to: '/cart', text: '收藏', icon: 'mdi-heart-outline', show: user.isLogin },
     {
       icon: 'mdi-account-circle',
       show: !user.isLogin,

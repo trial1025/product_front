@@ -3,7 +3,7 @@ VApp
   RouterView
 </template>
 
-<style>
+<!-- <style>
 html {
     overflow: -moz-hidden-unscrollable;
     height: 100%;
@@ -13,4 +13,4 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-</style>
+</style> -->

@@ -7,48 +7,63 @@ VContainer
           VImg(src="@/assets/carousel-1.png" height="500px")
         VCarouselItem(cover)
           VImg(src="@/assets/carousel-2.png" height="500px")
+    //- 最新商品
     VCol(cols="12")
-      VCard
-        VCardTitle 關於我們
-        VCardText
-          | 本網站為射箭器材交易平台，提供射箭器材的買賣服務，歡迎使用。
+      h2 最新商品
+    VCol(v-for="product in products.slice(0,4)" :key="product._id" class="mb-4" cols="12" sm="6" md="4" lg="3" xl="2")
+      ProductCard(v-bind="product")
+    //- 活動消息
+    VCol(cols="12")
+      h2 活動消息
+    VCol(cols="4")
+      VCard(width="300" height="300")
+        VImg(src="@/assets/activity-1.png")
+    VCol(cols="4")
+      VCard(width="300" height="300")
+        VImg(src="@/assets/activity-2.png")
+    vCol(cols="4")
+      VCard(width="300" height="300")
+        VImg(src="@/assets/activity-3.png")
+//- Footer
 </template>
 
-<style scoped>
-/* body {
-  overflow: hidden;
-} */
-#myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  object-fit: cover;
-}
-.content {
-  position: fixed;
-  color: #f1f1f1;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+<script setup>
+import { ref, onMounted, nextTick } from 'vue'
+import { useApi } from '@/composables/axios'
+import { useSnackbar } from 'vuetify-use-dialog'
+import ProductCard from '@/components/ProductCard.vue'
+import { useUserStore } from '@/store/user'
 
-.btn-shop {
-  position: fixed;
-  font-size: larger;
-  background-color:#E53935;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+const user = useUserStore()
+const { apiAuth } = useApi()
+const createSnackbar = useSnackbar()
 
-@media (max-width: 599px) {
-  .custom-margin {
-    margin-top: 35%;
+const products = ref([])
+const currentUser = ref({ account: user.account })
+
+onMounted(async () => {
+  try {
+    const { data } = await apiAuth.get('/products', {
+      params: {
+        itemsPerPage: -1
+      }
+    })
+    const filteredProducts = data.result.data.filter(product => product.account !== currentUser.value.account)
+    products.value.push(...filteredProducts)
+    // products.value.push(...data.result.data)
+    await nextTick()
+  } catch (error) {
+    console.log(error)
+    const text = error?.response?.data?.message || '發生錯誤，請稍後再試'
+    createSnackbar({
+      text,
+      showCloseButton: false,
+      snackbarProps: {
+        timeout: 2000,
+        color: 'red',
+        location: 'bottom'
+      }
+    })
   }
-}
-</style>
+})
+</script>
