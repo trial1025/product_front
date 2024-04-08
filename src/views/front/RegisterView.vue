@@ -2,9 +2,11 @@
 VContainer.d-flex
   VRow(justify="center" align="center" style="height: 90vh;")
     VCol(lg="4" md="6" sm="8" xs="12")
-      VCard(elevation="10" class="pa-5" style="height: 80vh" rounded="xl"
-      image="@/assets/login3.webp" theme="dark")
-        h1.text-center.my-2 sign up
+      VCard(elevation="2" class="pa-5 mx-auto" style="height: 80vh" rounded="md"
+      theme="light" max-width="400px")
+        VImg(src="@/assets/logo-lg.png" max-width="200px" class="my-auto")
+        VDivider(class="my-2")
+        h1.text-center.my-2 建立帳號
         VCol(cols="12")
           VForm(:disabled="isSubmitting" @submit.prevent="submit")
             VTextField(
@@ -46,9 +48,17 @@ VContainer.d-flex
               v-model="passwordConfirm.value.value"
               :error-messages="passwordConfirm.errorMessage.value"
             )
+            VText.text-body-2
+            | 註冊即表示你同意我們的
+            a(href="") 服務條款
+            | &
+            a(href="") 隱私政策
             VRow.justify-center.my-2
-              VCol(cols="auto")
+              VCol(cols="12" class="d-flex justify-center")
                 VBtn(type="submit" elevation="1" color="red-darken-1") 註冊
+              VText.text-center.my-4
+                | 已有帳號嗎？
+                RouterLink.text-decoration-none(:to="{ name: 'Login' }" style="color:#2A5264;font-weight:border") 登入
 </template>
 
 <script setup>
@@ -138,3 +148,9 @@ const submit = handleSubmit(async (values) => {
   }
 })
 </script>
+
+<style scoped>
+a {
+  color: #000;
+}
+</style>
