@@ -1,11 +1,17 @@
 <template lang="pug">
-video(autoplay muted loop id="myVideo")
-  source(src="@/assets/v1.mp4" type="video/mp4")
 VContainer
   VRow
-    VCol(xs="12" sm="12" md="12" lg="12").content
-      VBtn(rounded="xl" class="btn-shop custom-margin")
-        Router-link.text-decoration-none(to="/sell" style="color: white;") SHOP NOW
+    VCol(cols="12")
+      VCarousel(hide-delimiters cycle show-arrows="hover")
+        VCarouselItem(cover)
+          VImg(src="@/assets/carousel-1.png" height="500px")
+        VCarouselItem(cover)
+          VImg(src="@/assets/carousel-2.png" height="500px")
+    VCol(cols="12")
+      VCard
+        VCardTitle 關於我們
+        VCardText
+          | 本網站為射箭器材交易平台，提供射箭器材的買賣服務，歡迎使用。
 </template>
 
 <style scoped>

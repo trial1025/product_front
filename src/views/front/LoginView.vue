@@ -1,10 +1,12 @@
 <template lang="pug">
 VContainer.d-flex
   VRow(justify="center" align="center" style="height: 80vh;")
-    VCol(lg="4" md="6" sm="8" xs="12")
-      VCard(elevation="10" class="pa-5" style="height: 80vh" rounded="xl"
-      image="@/assets/login3.webp" theme="dark")
-        h1.text-center.mt-6 sign in
+    VCol
+      VCard(elevation="2" class="pa-5 mx-auto" style="height: 80vh" rounded="md"
+      theme="light" max-width="400px")
+        VImg(src="@/assets/logo-lg.png" max-width="200px" class="my-auto")
+        VDivider(class="my-2")
+        h1.text-center.mt-6 登入
         VCol(cols="12")
           VForm.my-6(:disabled="isSubmitting" @submit.prevent="submit")
             VTextField(
@@ -30,8 +32,11 @@ VContainer.d-flex
               bg-color="white"
             )
             VRow.justify-center.my-2
-              VCol(cols="auto")
-                VBtn(type="submit" elevation="1" color="red-darken-1") login
+              VCol(cols="12" class="d-flex justify-center")
+                VBtn(type="submit" elevation="1" color="red-darken-1") 登入
+              VText.text-center.my-4
+                | 還沒有帳號嗎？
+                RouterLink.text-decoration-none(:to="{ name: 'Register' }" style="color:#2A5264;font-weight:border") 建立帳號
 </template>
 
 <script setup>
