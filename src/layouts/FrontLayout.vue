@@ -45,6 +45,13 @@ VAppBar(density="compact" :elevation="1" class="custom-app-bar bg")
 //- 頁面內容
 VMain(style="background-color: #fff;")
   RouterView(:key="$route.path")
+VFooter(style="background-color:#E1E8EE")
+  VRow(justify="center" no-gutters)
+    VCol(cols="12" class="text-center mt-4")
+      VText.caption Copyright © {{ new Date().getFullYear() }} Y.J. LIAO
+      |
+      br
+      | 部分圖片來自於網路，僅做為學習用途。
 </template>
 
 <script setup>
