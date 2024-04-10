@@ -1,0 +1,1 @@
+import{s,A as t,o as e,b1 as n}from"./index-197d9177.js";function i(){const o=s(!1);return t(()=>{window.requestAnimationFrame(()=>{o.value=!0})}),{ssrBootStyles:e(()=>o.value?void 0:{transition:"none !important"}),isBooted:n(o)}}export{i as u};
