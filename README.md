@@ -27,5 +27,6 @@ NEWSHOT的目標是讓器材的流動率變高，讓新手可以用負擔的起�
 * 處理前端請求:Node.js+Express
 * 資料存取:MongoDB+Mongoose套件
 * 部屬網頁到Render
+
 [網站連結](https://trial1025.github.io/product_front/#/)
 
