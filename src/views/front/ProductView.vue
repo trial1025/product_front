@@ -1,12 +1,12 @@
 <template lang="pug">
 VContainer.mt-6(d-flex)
   VRow(justify="center")
-    VCol(md="6")
+    VCol(md="6" sm="10")
       VCard
         VImg(:src="product.image" cover :style="{width:'95%',margin:'auto',borderRadius: '10px' }")
-    VCol(md="4")
+    VCol(md="4" sm="10")
       VCard
-        VCardTitle(style="font-size: x-large;") {{ product.name }}
+        VCardText(style="font-size:large;" class="product-name") {{ product.name }}
         VCardText(style="color: #E53935;font-size:x-large;font-weight: bolder;") NT${{ product.price }}
         VDivider(class="mt-1")
         VCardText
@@ -17,7 +17,7 @@ VContainer.mt-6(d-flex)
           h4 商品類別
           p {{ product.category }}
           VForm(:disabled="isSubmitting" @submit.prevent="submit")
-            VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value" variant="outlined" label="數量" required density="compact" class="my-3")
+            //- VTextField(type="number" min="0" v-model.number="quantity.value.value" :error-messages="quantity.errorMessage.value" variant="outlined" label="數量" required density="compact" class="my-3")
             button(type="submit" :loading="isSubmitting" @click="getOrder" class="btn-red") 購買
       VCard(class="mt-2")
         VCardText 賣家資訊
@@ -147,5 +147,11 @@ onMounted(async () => {
   height: 35px;
   background-color: #E53935;
   color: aliceblue;
+}
+
+.product-name {
+  overflow-wrap: break-word;  /* 斷行處理 */
+  word-wrap: break-word;      /* 舊版瀏覽器的斷行處理 */
+  max-width: 100%;            /* 限制最大寬度 */
 }
 </style>

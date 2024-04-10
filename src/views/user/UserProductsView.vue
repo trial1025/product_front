@@ -2,8 +2,7 @@
 VContainer
   VRow
     VCol(cols="12")
-      h1.text-center 商品管理
-    VDivider
+      h1.text-center 我的商品
     VCol(cols="12")
       VBtn(color="green" @click="openDialog()") 新增商品
     VCol(cols="12")
@@ -43,7 +42,6 @@ VDialog(v-model="dialog" persistent width="500px")
     VCard(evevation="8" max-width="448" rounded="lg")
       VCardTitle {{ dialogId === '' ? '新增商品' : '編輯商品' }}
       VCardText
-
         VRow
           VCol(cols="6")
             VSelect(

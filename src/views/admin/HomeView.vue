@@ -3,6 +3,7 @@ VContainer
   VRow
     VCol(cols="12")
       h1.text-center 個人資料
+    VDivider
     VCol(cols="6")
       VListItem(:prepend-avatar :title="user.account")
 </template>

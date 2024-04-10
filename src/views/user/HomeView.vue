@@ -1,10 +1,16 @@
 <template lang="pug">
 VContainer
-  VRow
+  VRow(justify="center" no-gutters)
     VCol(cols="12")
       h1.text-center 個人資料
-    VCol(cols="6")
-      VListItem(:prepend-avatar :title="user.account")
+    VDivider
+    VCol(cols="12" class="text-center" justify-center align-center)
+      VCard.mt-12.py-6
+        VAvatar(size="120")
+          VImg(:src="prependAvatar")
+        VCardTitle 使用者帳號 | {{ user.account }}
+        VCardTitle Email | {{ user.email }}
+        //- VCardText 加入時間 | {{ user.createdAt }}
 </template>
 
 <script setup>

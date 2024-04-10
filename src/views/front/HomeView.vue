@@ -1,12 +1,12 @@
 <template lang="pug">
 VContainer
   VRow
-    VCol(cols="12")
-      VCarousel(hide-delimiters cycle show-arrows="hover")
-        VCarouselItem(cover)
-          VImg(src="@/assets/carousel-1.png" height="500px")
-        VCarouselItem(cover)
-          VImg(src="@/assets/carousel-2.png" height="500px")
+    //- VCol(cols="12")
+    VCarousel.custom-carousel(hide-delimiters cycle  :show-arrows="false" style="height:50vh")
+      VCarouselItem(cover style="background-color:blue")
+        VImg(src="@/assets/carousel-1.png")
+      VCarouselItem(cover)
+        VImg(src="@/assets/carousel-2.png")
     //- 最新商品
     VCol(cols="12")
       h2 最新商品
@@ -67,3 +67,22 @@ onMounted(async () => {
   }
 })
 </script>
+<!--
+<style scoped>
+.custom-carousel {
+  height: 500px; /* 默认高度 */
+}
+
+@media (max-width: 768px) {
+  .custom-carousel {
+    height: 400px; /* 平板设备 */
+  }
+}
+
+@media (max-width: 576px) {
+  .custom-carousel {
+    height: 300px; /* 手机设备 */
+  }
+}
+
+</style> -->

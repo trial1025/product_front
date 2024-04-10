@@ -79,9 +79,9 @@ const navItems = computed(() => {
   return [
     // { to: '/guide', text: '新手指南', show: true },
     { to: '/sell', text: '二手商店', show: true },
-    { to: '/cart', text: '收藏', icon: 'mdi-heart-outline', show: user.isLogin },
+    { to: '/cart', icon: 'mdi-heart-outline', show: user.isLogin },
     {
-      icon: 'mdi-account-circle',
+      icon: 'mdi-login',
       show: !user.isLogin,
       subItems: [
         { to: '/login', text: '登入', icon: 'mdi-login', show: !user.isLogin },
@@ -92,10 +92,10 @@ const navItems = computed(() => {
       icon: 'mdi-account',
       show: user.isLogin,
       subItems: [
-        { to: '/orders', text: '訂單', icon: 'mdi-list-box', show: true },
+        { to: '/orders', text: '購買清單', icon: 'mdi-clipboard-text-outline', show: user.isLogin },
         { to: '/user', text: '個人資料', icon: 'mdi-account-outline', show: user.isLogin },
-        { to: '/user/userproducts', text: '我的商品', icon: 'mdi-shopping-outline', show: user.isLogin },
-        { to: '/user/userorders', text: '我的訂單', icon: 'mdi-clipboard-text-outline', show: user.isLogin }
+        { to: '/user/userproducts', text: '我的賣場', icon: 'mdi-shopping-outline', show: user.isLogin },
+        { to: '/user/userorders', text: '我的銷售', icon: 'mdi-cash-fast', show: user.isLogin }
       ]
     },
     {
@@ -103,8 +103,8 @@ const navItems = computed(() => {
       show: user.isLogin && user.isAdmin,
       subItems: [
         { to: '/admin', text: '管理員資料', icon: 'mdi-account-outline', show: user.isLogin },
-        { to: '/admin/products', text: '商品管理', icon: 'mdi-shopping-outline', show: user.isLogin },
-        { to: '/admin/orders', text: '訂單管理', icon: 'mdi-clipboard-text-outline', show: user.isLogin }
+        { to: '/admin/products', text: '所有商品管理', icon: 'mdi-shopping-outline', show: user.isLogin },
+        { to: '/admin/orders', text: '所有訂單管理', icon: 'mdi-clipboard-text-outline', show: user.isLogin }
       ]
     }
   ]

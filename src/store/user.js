@@ -13,6 +13,7 @@ export const useUserStore = defineStore('user', () => {
   const email = ref('')
   const cart = ref(0)
   const role = ref(UserRole.USER)
+  const createdAt = ref('')
 
   const login = (data) => {
     if (data.token) {
@@ -64,7 +65,8 @@ export const useUserStore = defineStore('user', () => {
     logout,
     isLogin,
     isAdmin,
-    getProfile
+    getProfile,
+    createdAt
   }
 }, {
   persist: {

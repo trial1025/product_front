@@ -2,7 +2,7 @@
 VContainer
   VRow
     VCol(cols="12")
-      h1.text-center 商品管理
+      h1.text-center 所有商品
     VDivider
     VCol(cols="12")
       VBtn(color="green" @click="openDialog()") 新增商品
